@@ -8,7 +8,7 @@ export const getMongoConfig = async (): Promise<TypegooseModuleOptions> => {
 };
 
 const getMongoString = () => {
-  return 'mongodb+srv://admin:qwert123@cluster0.mulie.mongodb.net/?retryWrites=true&w=majority';
+  return 'mongodb://docker:mongopw@localhost:49153';
 };
 
 const getMongoOptions = () => ({});

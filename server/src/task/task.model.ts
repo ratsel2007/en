@@ -1,5 +1,6 @@
 import { prop } from '@typegoose/typegoose';
 import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
+import { Types } from 'mongoose';
 
 export interface TaskModel extends Base {}
 
@@ -45,4 +46,7 @@ export class TaskModel extends TimeStamps {
 
   @prop()
   autoComplete?: boolean;
+
+  @prop()
+  gameId: Types.ObjectId;
 }
