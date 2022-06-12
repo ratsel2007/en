@@ -15,7 +15,7 @@ export class FilesController {
 
   @Post('upload')
   @HttpCode(200)
-  @UseInterceptors(FileInterceptor('files'))
+  @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
   ): Promise<FileElementResponce[]> {
