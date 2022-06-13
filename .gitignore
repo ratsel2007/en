@@ -39,7 +39,7 @@ build/Release
 
 # Dependency directories
 server/node_modules/
-clietn/node_modules/
+client/node_modules/
 jspm_packages/
 
 # TypeScript v1 declaration files
@@ -108,3 +108,5 @@ dist
 
 server/dist
 server/upload
+
+client/public
