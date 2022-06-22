@@ -1,7 +1,10 @@
 import thunk from 'redux-thunk';
-import {configureStore} from "@reduxjs/toolkit";
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {userReducer} from './reducers/userReducer';
 
-const reducer = {};
+const reducer = combineReducers({
+    user: userReducer,
+});
 
 const middleware = [thunk];
 
@@ -11,5 +14,5 @@ export const store = configureStore({
 });
 
 
-// export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof reducer>;
 // export type AppDispatch = typeof store.dispatch;

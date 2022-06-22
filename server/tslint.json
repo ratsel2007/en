@@ -14,7 +14,7 @@
     "no-invalid-template-strings": true,
     "no-misused-new": true,
     "no-return-await": true,
-    "no-shadowed-variable": true,
+    "no-shadowed-variable": false,
     "no-switch-case-fall-through": true,
     "no-tautology-expression": true,
     "no-unused-variable": true,
@@ -26,7 +26,7 @@
     "prefer-const": true,
     "arrow-return-shorthand": true,
     "class-name": true,
-    "file-name-casing": [true, "kebab-case"],
+    "file-name-casing": [true, "camel-case"],
     "prefer-switch": [
       true,
       {
