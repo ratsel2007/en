@@ -1,7 +1,7 @@
 import {UserAction, UserActionTypes, UserState} from '../types/user';
 
 const initialState: UserState = {
-    users: []
+    users: [],
 };
 
 export const userReducer = (state = initialState, action: UserAction): UserState => {
@@ -9,6 +9,7 @@ export const userReducer = (state = initialState, action: UserAction): UserState
         case UserActionTypes.FETCH_USERS: {
             return {users: action.payload};
         }
-        default: return state;
+        default:
+            return state;
     }
 };

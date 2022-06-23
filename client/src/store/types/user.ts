@@ -5,12 +5,12 @@ export interface UserState {
 }
 
 export enum UserActionTypes {
-    FETCH_USERS = 'FETCH_USERS'
+    FETCH_USERS = 'FETCH_USERS',
 }
 
 interface FetchUserAction {
     type: UserActionTypes.FETCH_USERS;
-    payload?: any[];
+    payload?: UserModel[];
 }
 
 export type UserAction = FetchUserAction;

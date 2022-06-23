@@ -12,6 +12,7 @@ import {
 import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { ALREADY_REGISTERED_ERROR } from './auth.constants';
+import {RegisterDto} from './dto/register.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +25,7 @@ export class AuthController {
 
   @UsePipes(new ValidationPipe())
   @Post('register')
-  async register(@Body() dto: AuthDto) {
+  async register(@Body() dto: RegisterDto) {
     const oldUser = await this.authService.findUser(dto.login);
 
     if (oldUser) {
