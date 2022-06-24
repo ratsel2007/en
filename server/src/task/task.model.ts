@@ -30,7 +30,7 @@ export class TaskModel extends TimeStamps {
   codeDescription: string[];
 
   @prop({ type: () => [String] })
-  adress: string[];
+  address: string[];
 
   @prop({ type: () => [String] })
   codeAnswer: string[];

@@ -26,7 +26,6 @@
     "prefer-const": true,
     "arrow-return-shorthand": true,
     "class-name": true,
-    "file-name-casing": [true, "camel-case"],
     "prefer-switch": [
       true,
       {
