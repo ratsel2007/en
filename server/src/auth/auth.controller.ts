@@ -12,7 +12,7 @@ import {
 import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { ALREADY_REGISTERED_ERROR } from './auth.constants';
-import {RegisterDto} from './dto/register.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -38,8 +38,9 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Post('login')
-  async login(@Body() { login, password }: AuthDto) {
-    const user = await this.authService.validateUser(login, password);
+  async login(@Body() { email, password }: AuthDto) {
+    const user = await this.authService.validateUser(email, password);
+
     return this.authService.login(user.email);
   }
 

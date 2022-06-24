@@ -5,7 +5,7 @@ import { ModelType } from '@typegoose/typegoose/lib/types';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { USER_NOT_FOUND, PASSWORD_WRONG } from './auth.constants';
 import { JwtService } from '@nestjs/jwt';
-import {RegisterDto} from './dto/register.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -56,8 +56,11 @@ export class AuthService {
 
   async login(email: string) {
     const payload = { email };
+    const user = await this.userModel.findOne({ email }).exec();
+
     return {
       access_token: await this.jwtService.signAsync(payload),
+      user,
     };
   }
 }
