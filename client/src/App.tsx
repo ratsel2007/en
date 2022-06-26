@@ -1,18 +1,25 @@
 import * as React from 'react';
-import {useEffect} from 'react';
 import {useActions} from './hooks/useActions';
 import {Routes, Route} from 'react-router-dom';
 import {Main} from './components/main/main';
 import {LoginPage} from './components/login/loginPage';
 import {AddNewGame} from './components/addNewGame/addNewGame';
 import {PageNotFound} from './components/pageNotFound/pageNotFound';
+import {getUserLocalData} from './helper/userLocaData';
+import {useEffect} from 'react';
 
 export function App() {
-    const {fetchUsers} = useActions();
+    const {reLogin} = useActions();
+    const token = getUserLocalData();
 
     useEffect(() => {
-        fetchUsers();
-    }, []);
+        if (token) {
+            reLogin(token);
+            console.log('auth');
+        } else {
+            console.log('no auth');
+        }
+    }, [token]);
 
     return (
         <>

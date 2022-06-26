@@ -3,9 +3,10 @@ import { InjectModel } from 'nestjs-typegoose';
 import { UserModel } from './user.model';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { compare, genSalt, hash } from 'bcryptjs';
-import { USER_NOT_FOUND, PASSWORD_WRONG } from './auth.constants';
+import { USER_NOT_FOUND, PASSWORD_WRONG, WRONG_TOKEN } from './auth.constants';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
+import { ReLoginDto } from './dto/relogin.dto';
 
 @Injectable()
 export class AuthService {
@@ -62,5 +63,15 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(payload),
       user,
     };
+  }
+
+  async reLogin({ token }: ReLoginDto) {
+    try {
+      const user = await this.jwtService.verifyAsync(token);
+      const { email } = user;
+      return this.userModel.findOne({ email }).exec();
+    } catch (e) {
+      throw new UnauthorizedException(WRONG_TOKEN);
+    }
   }
 }

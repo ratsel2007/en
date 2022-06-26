@@ -4,9 +4,11 @@ import {Container, Stack, TextField, Button} from '@mui/material';
 import {AuthDto} from '../../../../server/src/auth/dto/auth.dto';
 import {useActions} from '../../hooks/useActions';
 import {Link} from 'react-router-dom';
+import {useTypedSelector} from '../../hooks/useTypedSelector';
 
 export const LoginPage: FC = () => {
-    const {login} = useActions();
+    const {login, logout} = useActions();
+    const {isAuth} = useTypedSelector((state) => state.auth);
 
     const [loginData, setLoginData] = useState<AuthDto>({
         email: '',
@@ -18,9 +20,13 @@ export const LoginPage: FC = () => {
     };
 
     const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+        if (!isAuth) {
+            e.preventDefault();
 
-        login(loginData);
+            login(loginData);
+        } else {
+            logout();
+        }
     };
 
     return (
@@ -45,7 +51,7 @@ export const LoginPage: FC = () => {
                             onChange={handleChangeLoginData}
                         />
                         <Button variant='contained' type='submit'>
-                            Войти
+                            {!isAuth ? 'Войти' : 'Выйти'}
                         </Button>
                     </Stack>
                 </form>

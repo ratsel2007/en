@@ -13,6 +13,7 @@ import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { ALREADY_REGISTERED_ERROR } from './auth.constants';
 import { RegisterDto } from './dto/register.dto';
+import { ReLoginDto } from './dto/relogin.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -42,6 +43,11 @@ export class AuthController {
     const user = await this.authService.validateUser(email, password);
 
     return this.authService.login(user.email);
+  }
+
+  @Post('relogin')
+  async relogin(@Body() dto: ReLoginDto) {
+    return this.authService.reLogin(dto);
   }
 
   @Delete()
