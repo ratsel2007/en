@@ -7,6 +7,7 @@ import {AddNewGame} from './components/addNewGame/addNewGame';
 import {PageNotFound} from './components/pageNotFound/pageNotFound';
 import {getUserLocalData} from './helper/userLocaData';
 import {useEffect} from 'react';
+import {RequireAuth} from './hoc/RequireAuth';
 
 export function App() {
     const {reLogin} = useActions();
@@ -15,9 +16,6 @@ export function App() {
     useEffect(() => {
         if (token) {
             reLogin(token);
-            console.log('auth');
-        } else {
-            console.log('no auth');
         }
     }, [token]);
 
@@ -26,7 +24,14 @@ export function App() {
             <Routes>
                 <Route path='/' element={<Main />} />
                 <Route path='/login' element={<LoginPage />} />
-                <Route path='/add-game' element={<AddNewGame />} />
+                <Route
+                    path='/add-game'
+                    element={
+                        <RequireAuth>
+                            <AddNewGame />
+                        </RequireAuth>
+                    }
+                />
                 <Route path='*' element={<PageNotFound />} />
             </Routes>
         </>

@@ -3,12 +3,16 @@ import {FC, useState} from 'react';
 import {Container, Stack, TextField, Button} from '@mui/material';
 import {AuthDto} from '../../../../server/src/auth/dto/auth.dto';
 import {useActions} from '../../hooks/useActions';
-import {Link} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
 
 export const LoginPage: FC = () => {
-    const {login, logout} = useActions();
+    const {login} = useActions();
     const {isAuth} = useTypedSelector((state) => state.auth);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const fromPage = location.state?.from?.pathname;
 
     const [loginData, setLoginData] = useState<AuthDto>({
         email: '',
@@ -19,14 +23,12 @@ export const LoginPage: FC = () => {
         setLoginData({...loginData, [e.currentTarget.name]: e.currentTarget.value});
     };
 
-    const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
-        if (!isAuth) {
-            e.preventDefault();
+    const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-            login(loginData);
-        } else {
-            logout();
-        }
+        await login(loginData);
+
+        navigate(fromPage);
     };
 
     return (
@@ -55,7 +57,6 @@ export const LoginPage: FC = () => {
                         </Button>
                     </Stack>
                 </form>
-                <Link to='/'>Main</Link>
             </Container>
         </>
     );
