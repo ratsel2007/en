@@ -18,7 +18,10 @@ export class TaskService {
     return this.taskModel.create(dto);
   }
 
-  async patch(id: string, dto: PatchTaskDto): Promise<DocumentType<TaskModel>> {
+  async patch(
+    id: string,
+    dto: PatchTaskDto,
+  ): Promise<DocumentType<TaskModel> | null> {
     return this.taskModel.findByIdAndUpdate(id, dto).exec();
   }
 

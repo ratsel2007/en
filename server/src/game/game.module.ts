@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { GameController } from './game.controller';
 import { GameModel } from './game.model';
+import { GameService } from './game.service';
 
 @Module({
   controllers: [GameController],
@@ -15,5 +16,6 @@ import { GameModel } from './game.model';
       },
     ]),
   ],
+  providers: [GameService],
 })
 export class GameModule {}

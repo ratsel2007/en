@@ -7,5 +7,8 @@ export class GameModel extends TimeStamps {
   title: string;
 
   @prop()
+  image: string;
+
+  @prop()
   timeStart: Date;
 }
