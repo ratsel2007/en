@@ -1,21 +1,25 @@
 import * as React from 'react';
-import {useActions} from './hooks/useActions';
-import {Routes, Route} from 'react-router-dom';
+import {useEffect} from 'react';
+
 import {Main} from './components/main/main';
 import {LoginPage} from './components/login/loginPage';
 import {AddNewGame} from './components/addNewGame/addNewGame';
 import {PageNotFound} from './components/pageNotFound/pageNotFound';
-import {getUserLocalData} from './helper/userLocaData';
-import {useEffect} from 'react';
+
+import {useAppDispatch} from './hooks/redux';
+import {reLogin} from './store/action-creators/auth';
+import {Routes, Route} from 'react-router-dom';
 import {RequireAuth} from './hoc/RequireAuth';
+import {getUserLocalData} from './helper/userLocaData';
 
 export function App() {
-    const {reLogin} = useActions();
+    const dispatch = useAppDispatch();
+
     const token = getUserLocalData();
 
     useEffect(() => {
         if (token) {
-            reLogin(token);
+            dispatch(reLogin(token));
         }
     }, [token]);
 

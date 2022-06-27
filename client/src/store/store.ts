@@ -1,18 +1,16 @@
-import thunk from 'redux-thunk';
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
-import {userReducer} from './reducers/userReducer';
-import {authReducer} from './reducers/authReducer';
+import AuthReducer from './reducers/authSlice';
 
 const reducer = combineReducers({
-    user: userReducer,
-    auth: authReducer,
+    auth: AuthReducer,
 });
 
-const middleware = [thunk];
-
-export const store = configureStore({
-    reducer,
-    middleware,
-});
+export const setupStore = () => {
+    return configureStore({
+        reducer,
+    });
+};
 
 export type RootState = ReturnType<typeof reducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];

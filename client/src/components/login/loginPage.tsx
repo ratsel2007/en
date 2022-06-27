@@ -1,16 +1,18 @@
 import * as React from 'react';
 import {FC, useState} from 'react';
+import {useAppDispatch} from '../../hooks/redux';
+import {useAuthState} from '../../store/reducers/authSlice';
+import {login} from '../../store/action-creators/auth';
+import {useLocation, useNavigate} from 'react-router-dom';
+
 import {Container, Stack, TextField, Button} from '@mui/material';
 import {AuthDto} from '../../../../server/src/auth/dto/auth.dto';
-import {useActions} from '../../hooks/useActions';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {useTypedSelector} from '../../hooks/useTypedSelector';
 
 export const LoginPage: FC = () => {
-    const {login} = useActions();
-    const {isAuth} = useTypedSelector((state) => state.auth);
     const location = useLocation();
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const {isAuth} = useAuthState();
 
     const fromPage = location.state?.from?.pathname;
 
@@ -26,9 +28,9 @@ export const LoginPage: FC = () => {
     const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        await login(loginData);
+        await dispatch(login(loginData));
 
-        navigate(fromPage);
+        fromPage ? navigate(fromPage) : navigate('/');
     };
 
     return (

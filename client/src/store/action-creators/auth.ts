@@ -1,34 +1,37 @@
-import {Dispatch} from 'redux';
-import {AuthAction, AuthActionTypes} from '../types/auth';
 import {AuthDto} from '../../../../server/src/auth/dto/auth.dto';
 import axios from 'axios';
 import {removeUserLocalData, setUserLocalData} from '../../helper/userLocaData';
+import {useAuthActions} from '../reducers/authSlice';
+import {AppDispatch} from '../store';
+import {USER_LOGIN_URL, USER_RELOGIN_URL} from '../constants';
+
+const {setAuthUser, toggleIsAuth} = useAuthActions();
 
 export const login = (authData: AuthDto) => {
-    return async (dispatch: Dispatch<AuthAction>) => {
-        const {data} = await axios.post('http://localhost:5001/api/auth/login', authData);
+    return async (dispatch: AppDispatch) => {
+        const {data} = await axios.post(USER_LOGIN_URL, authData);
 
-        dispatch({type: AuthActionTypes.SET_CURRENT_USER, payload: data.user});
-        dispatch({type: AuthActionTypes.SET_IS_AUTH, payload: true});
+        dispatch(setAuthUser(data.user));
+        dispatch(toggleIsAuth(true));
 
         setUserLocalData(data.access_token);
     };
 };
 
 export const logout = () => {
-    return async (dispatch: Dispatch) => {
-        dispatch({type: AuthActionTypes.SET_CURRENT_USER, payload: {}});
-        dispatch({type: AuthActionTypes.SET_IS_AUTH, payload: false});
+    return async (dispatch: AppDispatch) => {
+        dispatch(setAuthUser(null));
+        dispatch(toggleIsAuth(false));
 
         removeUserLocalData();
     };
 };
 
 export const reLogin = (token: string) => {
-    return async (dispatch: Dispatch) => {
-        const {data} = await axios.post('http://localhost:5001/api/auth/relogin', {token});
+    return async (dispatch: AppDispatch) => {
+        const {data} = await axios.post(USER_RELOGIN_URL, {token});
 
-        dispatch({type: AuthActionTypes.SET_CURRENT_USER, payload: data});
-        dispatch({type: AuthActionTypes.SET_IS_AUTH, payload: true});
+        dispatch(setAuthUser(data));
+        dispatch(toggleIsAuth(true));
     };
 };
