@@ -37,14 +37,8 @@ export class GameController {
     return updatedGame;
   }
 
-  @Delete(':id')
-  async deleteGame(@Param('id') id: string) {
-    const deletedGame = await this.gameService.deleteGame(id);
-
-    if (!deletedGame) {
-      throw new NotFoundException(GAME_NOT_FOUND);
-    }
-
-    return deletedGame;
+  @Delete()
+  async deleteAllGames() {
+    return this.gameService.deleteAllGames();
   }
 }

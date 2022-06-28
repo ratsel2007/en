@@ -1,15 +1,21 @@
 import * as React from 'react';
 import {Header} from '../common/header/header';
-import {Link} from 'react-router-dom';
+import {useEffect} from 'react';
+import {useAppDispatch} from '../../hooks/redux';
+import {fetchNextGame} from '../../store/action-creators/game';
+import {MainDashboard} from '../mainDashboard/mainDashboard';
 
 export const Main = () => {
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(fetchNextGame());
+    }, []);
+
     return (
         <>
             <Header />
-            <div>
-                <Link to='/login'>Login</Link>
-                <Link to='/add-game'>Add</Link>
-            </div>
+            <MainDashboard />
         </>
     );
 };

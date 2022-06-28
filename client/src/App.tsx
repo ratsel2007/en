@@ -9,8 +9,8 @@ import {PageNotFound} from './components/pageNotFound/pageNotFound';
 import {useAppDispatch} from './hooks/redux';
 import {reLogin} from './store/action-creators/auth';
 import {Routes, Route} from 'react-router-dom';
-import {RequireAuth} from './hoc/RequireAuth';
 import {getUserLocalData} from './helper/userLocaData';
+import {RequireAuthorStatus} from './hoc/RequireAuthorStatus';
 
 export function App() {
     const dispatch = useAppDispatch();
@@ -31,9 +31,9 @@ export function App() {
                 <Route
                     path='/add-game'
                     element={
-                        <RequireAuth>
+                        <RequireAuthorStatus>
                             <AddNewGame />
-                        </RequireAuth>
+                        </RequireAuthorStatus>
                     }
                 />
                 <Route path='*' element={<PageNotFound />} />

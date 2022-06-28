@@ -8,7 +8,10 @@ export class CreateGameDto {
   image: string;
 
   @IsDate()
-  date: Date;
+  date?: Date;
+
+  @IsString()
+  gameAuthor: string;
 }
 
 export type PatchGameDto = Partial<CreateGameDto>;

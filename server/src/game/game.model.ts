@@ -11,4 +11,7 @@ export class GameModel extends TimeStamps {
 
   @prop()
   timeStart: Date;
+
+  @prop()
+  gameAuthor: string;
 }

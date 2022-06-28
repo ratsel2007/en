@@ -33,11 +33,14 @@ export const Header: FC = () => {
                     <Typography variant='h6' component='div' sx={{flexGrow: 1}}>
                         {authUser?.name}
                     </Typography>
-                    <Link to='/add-game'>
-                        <Button color='inherit' sx={{color: '#FFFFFF', textDecoration: 'none'}}>
-                            Добавить игру
-                        </Button>
-                    </Link>
+                    {authUser?.author && (
+                        <Link to='/add-game'>
+                            <Button color='inherit' sx={{color: '#FFFFFF', textDecoration: 'none'}}>
+                                Добавить игру
+                            </Button>
+                        </Link>
+                    )}
+
                     <Button color='inherit' onClick={handleLogout}>
                         {!isAuth ? 'Войти' : 'Выйти'}
                     </Button>

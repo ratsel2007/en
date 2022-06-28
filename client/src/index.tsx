@@ -5,6 +5,8 @@ import {Provider} from 'react-redux';
 import {setupStore} from './store/store';
 import {BrowserRouter} from 'react-router-dom';
 
+import './index.scss';
+
 const app = createRoot(document.getElementById('app'));
 
 const store = setupStore();

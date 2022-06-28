@@ -22,10 +22,10 @@ export class GameService {
     id: string,
     dto: PatchGameDto,
   ): Promise<DocumentType<GameModel> | null> {
-    return this.gameModel.findByIdAndUpdate(id, dto).exec();
+    return this.gameModel.findByIdAndUpdate(id, dto, { new: true }).exec();
   }
 
-  async deleteGame(id: string): Promise<DocumentType<GameModel> | null> {
-    return this.gameModel.findByIdAndDelete(id).exec();
+  async deleteAllGames() {
+    return this.gameModel.deleteMany({});
   }
 }

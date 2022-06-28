@@ -22,7 +22,7 @@ export class TaskService {
     id: string,
     dto: PatchTaskDto,
   ): Promise<DocumentType<TaskModel> | null> {
-    return this.taskModel.findByIdAndUpdate(id, dto).exec();
+    return this.taskModel.findByIdAndUpdate(id, dto, { new: true }).exec();
   }
 
   async delete(id: string): Promise<DocumentType<TaskModel> | null> {
