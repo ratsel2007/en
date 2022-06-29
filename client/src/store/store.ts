@@ -1,10 +1,14 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import AuthReducer from './reducers/authSlice';
 import GameReducer from './reducers/gameSlice';
+import TaskReducer from './reducers/taskSlice';
+import ModalReducer from './reducers/modalSlice';
 
 const reducer = combineReducers({
     auth: AuthReducer,
     game: GameReducer,
+    task: TaskReducer,
+    modal: ModalReducer,
 });
 
 export const setupStore = () => {

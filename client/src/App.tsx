@@ -11,6 +11,7 @@ import {reLogin} from './store/action-creators/auth';
 import {Routes, Route} from 'react-router-dom';
 import {getUserLocalData} from './helper/userLocaData';
 import {RequireAuthorStatus} from './hoc/RequireAuthorStatus';
+import {AddTaskForGame} from './components/addTaskForGame/addTaskForGame';
 
 export function App() {
     const dispatch = useAppDispatch();
@@ -33,6 +34,14 @@ export function App() {
                     element={
                         <RequireAuthorStatus>
                             <AddNewGame />
+                        </RequireAuthorStatus>
+                    }
+                />
+                <Route
+                    path='/add-tasks'
+                    element={
+                        <RequireAuthorStatus>
+                            <AddTaskForGame />
                         </RequireAuthorStatus>
                     }
                 />

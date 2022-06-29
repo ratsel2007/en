@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Button, Container, Stack, Typography} from '@mui/material';
 import {useGameState} from '../../store/reducers/gameSlice';
 import {useAuthState} from '../../store/reducers/authSlice';
+import {Link} from 'react-router-dom';
 
 export const MainDashboard = () => {
     const {nextGame} = useGameState();
@@ -21,10 +22,13 @@ export const MainDashboard = () => {
                 <Button variant='contained' sx={{mb: '20px'}}>
                     Войти в игру
                 </Button>
+
                 {authUser?.name === nextGame[0].gameAuthor && (
-                    <Button variant='contained' sx={{mb: '20px'}}>
-                        Редактировать игру
-                    </Button>
+                    <Link to='/add-tasks'>
+                        <Button variant='contained' sx={{mb: '20px'}}>
+                            Редактировать игру
+                        </Button>
+                    </Link>
                 )}
             </Stack>
         </Container>
