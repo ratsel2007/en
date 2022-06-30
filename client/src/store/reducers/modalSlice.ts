@@ -4,6 +4,7 @@ import {useAppSelector} from '../../hooks/redux';
 const initialOpenState = {
     globalOpen: false,
     addTask: false,
+    editTask: false,
     editGameData: false,
 };
 
@@ -13,6 +14,7 @@ export interface ModalState {
     modalOpen: {
         globalOpen: boolean;
         addTask: boolean;
+        editTask: boolean;
         editGameData: boolean;
     };
 }

@@ -19,14 +19,14 @@ export class CreateTaskDto {
   @IsString()
   text?: string;
 
-  @IsArray()
-  codeLevel: string[];
+  @IsString()
+  codeLevel: string;
 
-  @IsArray()
-  codeDescription: string[];
+  @IsString()
+  codeDescription: string;
 
-  @IsArray()
-  address: string[];
+  @IsString()
+  address: string;
 
   @IsArray()
   codeAnswer: string[];

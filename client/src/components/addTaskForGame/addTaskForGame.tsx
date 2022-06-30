@@ -4,8 +4,12 @@ import {Header} from '../common/header/header';
 import {useAppDispatch} from '../../hooks/redux';
 import {useModalActions, useModalState} from '../../store/reducers/modalSlice';
 import {ModalWindow} from '../common/modal/modalWindow';
-import {AddTask} from '../common/forms/addTask';
+import {AddTaskForm} from '../common/forms/addTaskForm';
 import {useTaskState} from '../../store/reducers/taskSlice';
+import {useEffect} from 'react';
+import {getAllTasks} from '../../store/action-creators/task';
+import {TaskForAuthor} from '../task/taskForAuthor';
+import Typography from '@mui/material/Typography';
 
 export const AddTaskForGame = () => {
     const dispatch = useAppDispatch();
@@ -20,6 +24,10 @@ export const AddTaskForGame = () => {
         dispatch(setModalOpen('addTask'));
     };
 
+    useEffect(() => {
+        dispatch(getAllTasks());
+    }, []);
+
     return (
         <>
             <Header />
@@ -33,15 +41,21 @@ export const AddTaskForGame = () => {
                     </Button>
                 </Stack>
 
+                {!tasks.length && (
+                    <Typography component='div' sx={{flexGrow: 1}}>
+                        Заданий к игре пока нет
+                    </Typography>
+                )}
+
                 {tasks &&
                     tasks.map((task) => {
-                        return <div key={task.id}>tasks.title</div>;
+                        return <TaskForAuthor key={task.title} task={task} />;
                     })}
             </Container>
 
             {addTask && (
                 <ModalWindow>
-                    <AddTask />
+                    <AddTaskForm />
                 </ModalWindow>
             )}
         </>

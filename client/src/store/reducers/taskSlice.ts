@@ -1,9 +1,14 @@
 import {TaskModel} from '../../../../server/src/task/task.model';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {useAppSelector} from '../../hooks/redux';
+import {PatchTaskDto} from '../../../../server/src/task/dto/task.dto';
 
 export interface TaskState {
     tasks: TaskModel[];
+}
+export interface EditTaskPayload {
+    id: string;
+    data: PatchTaskDto;
 }
 
 const initialState: TaskState = {
@@ -16,6 +21,12 @@ export const taskSlice = createSlice({
     reducers: {
         setTasks(state, {payload: tasks}: PayloadAction<TaskModel[]>) {
             state.tasks = tasks;
+        },
+        setNewTask(state, {payload: task}: PayloadAction<TaskModel>) {
+            state.tasks.push(task);
+        },
+        setEditTask(state, {payload}: PayloadAction<EditTaskPayload>) {
+            const {id, data} = payload;
         },
     },
 });
