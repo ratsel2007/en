@@ -10,6 +10,9 @@ export class RegisterDto {
   @IsString()
   name: string;
 
+  @IsString()
+  team?: string;
+
   @IsBoolean()
   author?: boolean;
 }

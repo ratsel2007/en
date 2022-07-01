@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { getMongoConfig } from './configs/mongo.config';
 import { FilesModule } from './files/files.module';
+import { AnswerModule } from './answer/answer.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { FilesModule } from './files/files.module';
     GameModule,
     AuthModule,
     FilesModule,
+    AnswerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

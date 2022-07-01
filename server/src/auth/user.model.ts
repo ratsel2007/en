@@ -13,6 +13,9 @@ export class UserModel extends TimeStamps {
   @prop()
   name: string;
 
+  @prop()
+  team?: string;
+
   @prop({ default: false })
   author: boolean;
 }
