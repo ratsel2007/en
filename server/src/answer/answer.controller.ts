@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { AnswerService } from './answer.service';
 import { CreateAnswerDto, PatchAnswerToRightDto } from './dto/answer.dto';
 
@@ -12,7 +20,7 @@ export class AnswerController {
   }
 
   @Get('/team')
-  async getAnswersByTeam(@Body() team: string) {
+  async getAnswersByTeam(@Query('team') team: string) {
     return this.answerService.getAnswersByTeam(team);
   }
 
@@ -21,8 +29,11 @@ export class AnswerController {
     return this.answerService.createAnswer(dto);
   }
 
-  @Patch()
-  async patchAnswer(@Body() id: string, dto: PatchAnswerToRightDto) {
+  @Patch(':id')
+  async patchAnswer(
+    @Param('id') id: string,
+    @Body() dto: PatchAnswerToRightDto,
+  ) {
     return this.answerService.editAnswerToRight(id, dto);
   }
 }

@@ -26,11 +26,13 @@ export class TeamService {
   }
 
   async findTeamByTitle(title: string) {
-    return this.teamModel.findOne({ title }).exec();
+    console.log(title);
+    // return this.teamModel.findOne({ title }).exec();
   }
 
-  async increaseTeamProgress(title: string, answerId: string, answer: string) {
-    const team = await this.findTeamByTitle(title);
+  async increaseTeamProgress({ teamId, answerId, answer }) {
+    const team = await this.getTeamById(teamId);
+
     const correctAnswer = await this.answerService.checkAnswer(
       answerId,
       answer,
@@ -40,6 +42,6 @@ export class TeamService {
       team.progressInGame++;
     }
 
-    return team;
+    return { team, correctAnswer };
   }
 }

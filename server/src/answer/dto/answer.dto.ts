@@ -1,4 +1,4 @@
-import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 
 export class CreateAnswerDto {
   @IsString()
@@ -12,9 +12,6 @@ export class CreateAnswerDto {
 
   @IsString()
   answer: string;
-
-  @IsDate()
-  date: Date;
 
   @IsBoolean()
   right: boolean;

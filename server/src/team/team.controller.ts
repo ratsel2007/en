@@ -38,10 +38,8 @@ export class TeamController {
 
   @Patch()
   async checkTeamProgress(
-    @Body() teamId: string,
-    answerId: string,
-    answer: string,
+    @Body() data: { teamId: string; answerId: string; answer: string },
   ) {
-    return this.teamService.increaseTeamProgress(teamId, answerId, answer);
+    return this.teamService.increaseTeamProgress(data);
   }
 }

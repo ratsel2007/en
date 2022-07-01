@@ -34,6 +34,6 @@ export class AnswerService {
   }
 
   async editAnswerToRight(id: string, dto: PatchAnswerToRightDto) {
-    return this.answerModel.findByIdAndUpdate(id, dto);
+    return this.answerModel.findByIdAndUpdate(id, dto, { new: true });
   }
 }
