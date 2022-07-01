@@ -40,17 +40,32 @@ export const TaskForAuthor: FC<TaskProps> = ({task}) => {
                         {task.description}
                     </Typography>
                     <img className='task-for-author__image' src={task.image} alt={task.title} />
-                    <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
+                    <Typography component='p' sx={{flexGrow: 1, mb: '10px', whiteSpace: 'pre'}}>
                         {task.text}
                     </Typography>
                     <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
                         Уровни кодов: {task.codeLevel}
                     </Typography>
-                    <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
-                        Описание кодов: {task.codeDescription}
+                    <Typography component='div' sx={{flexGrow: 1, mb: '10px', whiteSpace: 'pre'}}>
+                        Описание кодов: <br /> {task.codeDescription}
                     </Typography>
                     <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
-                        Проверочный сектор: {task.address}
+                        Проверочный сектор:
+                        <br />
+                        {task.address.map((address, index) => (
+                            <span className='task-for-author__note' key={index}>
+                                {address}
+                            </span>
+                        ))}
+                    </Typography>
+                    <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
+                        Коды на уровне:
+                        <br />
+                        {task.codeAnswer.map((codeAnswer, index) => (
+                            <span className='task-for-author__note' key={index}>
+                                {codeAnswer}
+                            </span>
+                        ))}
                     </Typography>
                     <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
                         Подсказка 1: {task.hint1}

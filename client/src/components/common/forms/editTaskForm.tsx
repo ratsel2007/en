@@ -6,6 +6,7 @@ import {PatchTaskDto} from '../../../../../server/src/task/dto/task.dto';
 import {useAppDispatch} from '../../../hooks/redux';
 import {editTask} from '../../../store/action-creators/task';
 import {useModalActions} from '../../../store/reducers/modalSlice';
+import {useArrayDataToStringData} from '../../../hooks/useArrayDataToStringData';
 
 type EditTaskProps = {
     task: TaskModel;
@@ -33,7 +34,13 @@ export const EditTaskForm: FC<EditTaskProps> = ({task}) => {
     });
 
     const handleChangeEditTaskData = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEditTaskData({...editTaskData, [e.currentTarget.name]: e.currentTarget.value});
+        if (e.target.name === 'codeAnswer') {
+            setEditTaskData({...editTaskData, codeAnswer: useArrayDataToStringData(e.currentTarget.value)});
+        } else if (e.target.name === 'address') {
+            setEditTaskData({...editTaskData, address: useArrayDataToStringData(e.currentTarget.value)});
+        } else {
+            setEditTaskData({...editTaskData, [e.currentTarget.name]: e.currentTarget.value});
+        }
     };
 
     const handleEditTaskFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -97,6 +104,8 @@ export const EditTaskForm: FC<EditTaskProps> = ({task}) => {
                     name='text'
                     label='Текст задания'
                     value={editTaskData.text}
+                    multiline
+                    rows={4}
                     variant='outlined'
                     sx={{mb: '10px'}}
                     onChange={handleChangeEditTaskData}
@@ -115,6 +124,8 @@ export const EditTaskForm: FC<EditTaskProps> = ({task}) => {
                     name='codeDescription'
                     label='Описание расположения кодов задания'
                     value={editTaskData.codeDescription}
+                    multiline
+                    rows={4}
                     variant='outlined'
                     sx={{mb: '10px'}}
                     onChange={handleChangeEditTaskData}

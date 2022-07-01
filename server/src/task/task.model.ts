@@ -29,8 +29,8 @@ export class TaskModel extends TimeStamps {
   @prop()
   codeDescription: string;
 
-  @prop()
-  address: string;
+  @prop({ type: () => [String] })
+  address: string[];
 
   @prop({ type: () => [String] })
   codeAnswer: string[];

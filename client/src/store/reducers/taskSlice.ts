@@ -2,12 +2,13 @@ import {TaskModel} from '../../../../server/src/task/task.model';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {useAppSelector} from '../../hooks/redux';
 import {PatchTaskDto} from '../../../../server/src/task/dto/task.dto';
+import {Types} from 'mongoose';
 
 export interface TaskState {
     tasks: TaskModel[];
 }
 export interface EditTaskPayload {
-    id: string;
+    id: Types.ObjectId;
     data: PatchTaskDto;
 }
 
@@ -27,6 +28,11 @@ export const taskSlice = createSlice({
         },
         setEditTask(state, {payload}: PayloadAction<EditTaskPayload>) {
             const {id, data} = payload;
+            const foundIndex = state.tasks.findIndex((task) => task._id == id);
+            state.tasks[foundIndex] = data;
+        },
+        setDeleteTask(state, {payload: id}: PayloadAction<Types.ObjectId>) {
+            state.tasks = state.tasks.filter((task) => task._id !== id);
         },
     },
 });

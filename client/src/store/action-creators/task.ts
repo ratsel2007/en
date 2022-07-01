@@ -1,10 +1,11 @@
+import {Types} from 'mongoose';
 import {AppDispatch} from '../store';
 import axios from 'axios';
 import {TASKS_URL} from '../constants';
 import {useTaskActions} from '../reducers/taskSlice';
 import {CreateTaskDto, PatchTaskDto} from '../../../../server/src/task/dto/task.dto';
 
-const {setTasks, setNewTask, setEditTask} = useTaskActions();
+const {setTasks, setNewTask, setEditTask, setDeleteTask} = useTaskActions();
 
 export const getAllTasks = () => {
     return async (dispatch: AppDispatch) => {
@@ -22,7 +23,7 @@ export const createNewTask = (dto: CreateTaskDto) => {
     };
 };
 
-export const editTask = (id: string, dto: PatchTaskDto) => {
+export const editTask = (id: Types.ObjectId, dto: PatchTaskDto) => {
     return async (dispatch: AppDispatch) => {
         const {data} = await axios.patch(TASKS_URL + id, dto);
 
@@ -30,8 +31,10 @@ export const editTask = (id: string, dto: PatchTaskDto) => {
     };
 };
 
-export const deleteTask = (id: string) => {
+export const deleteTask = (id: Types.ObjectId) => {
     return async (dispatch: AppDispatch) => {
         await axios.delete(TASKS_URL, {data: id});
+
+        dispatch(setDeleteTask(id));
     };
 };

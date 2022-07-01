@@ -25,8 +25,8 @@ export class CreateTaskDto {
   @IsString()
   codeDescription: string;
 
-  @IsString()
-  address: string;
+  @IsArray()
+  address: string[];
 
   @IsArray()
   codeAnswer: string[];

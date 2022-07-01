@@ -5,6 +5,7 @@ import {useState} from 'react';
 import {useAppDispatch} from '../../../hooks/redux';
 import {createNewTask} from '../../../store/action-creators/task';
 import {useModalActions} from '../../../store/reducers/modalSlice';
+import {useArrayDataToStringData} from '../../../hooks/useArrayDataToStringData';
 
 export const AddTaskForm = () => {
     const dispatch = useAppDispatch();
@@ -20,7 +21,7 @@ export const AddTaskForm = () => {
         text: '',
         codeLevel: '',
         codeDescription: '',
-        address: '',
+        address: [],
         codeAnswer: [],
         hint1: '',
         hint2: '',
@@ -28,12 +29,19 @@ export const AddTaskForm = () => {
         autoComplete: false,
     });
 
-    const handleChangeTaskData = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTaskData({...taskData, [e.currentTarget.name]: e.currentTarget.value});
+    const handleChangeTaskData = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        if (e.target.name === 'codeAnswer') {
+            setTaskData({...taskData, codeAnswer: useArrayDataToStringData(e.currentTarget.value)});
+        } else if (e.target.name === 'address') {
+            setTaskData({...taskData, address: useArrayDataToStringData(e.currentTarget.value)});
+        } else {
+            setTaskData({...taskData, [e.currentTarget.name]: e.currentTarget.value});
+        }
     };
 
     const handleSubmitTaskForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         await dispatch(createNewTask(taskData));
 
         dispatch(setModalClose());
@@ -86,6 +94,8 @@ export const AddTaskForm = () => {
                     type='text'
                     name='text'
                     label='Текст задания'
+                    multiline
+                    rows={4}
                     variant='outlined'
                     sx={{mb: '10px'}}
                     onChange={handleChangeTaskData}
@@ -102,6 +112,8 @@ export const AddTaskForm = () => {
                     type='text'
                     name='codeDescription'
                     label='Описание расположения кодов задания'
+                    multiline
+                    rows={4}
                     variant='outlined'
                     sx={{mb: '10px'}}
                     onChange={handleChangeTaskData}
@@ -109,7 +121,7 @@ export const AddTaskForm = () => {
                 <TextField
                     type='text'
                     name='address'
-                    label='Проверочный сектор'
+                    label='Проверочный сектор (указывать все варианты через запятую)'
                     variant='outlined'
                     sx={{mb: '10px'}}
                     onChange={handleChangeTaskData}
@@ -117,7 +129,7 @@ export const AddTaskForm = () => {
                 <TextField
                     type='text'
                     name='codeAnswer'
-                    label='Правильный код'
+                    label='Правильный код (указывать все варианты через запятую)'
                     variant='outlined'
                     sx={{mb: '10px'}}
                     onChange={handleChangeTaskData}
