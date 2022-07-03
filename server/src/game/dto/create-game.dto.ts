@@ -7,6 +7,9 @@ export class CreateGameDto {
   @IsString()
   image: string;
 
+  @IsString()
+  text: string;
+
   @IsDate()
   date?: Date;
 
@@ -21,6 +24,9 @@ export class PatchGameDto {
   @IsString()
   image: string;
 
+  @IsString()
+  text: string;
+
   @IsDate()
   date?: Date;
 
@@ -28,8 +34,8 @@ export class PatchGameDto {
   gameAuthor: string;
 
   @IsBoolean()
-  isOpen: false;
+  isOpen?: false;
 
   @IsArray()
-  teamInGame: string[];
+  teamInGame?: string[];
 }

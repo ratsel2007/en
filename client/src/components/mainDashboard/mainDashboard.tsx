@@ -25,6 +25,10 @@ export const MainDashboard = () => {
                     <img className='game-image' src={`${nextGame[0].image}`} alt={nextGame[0].title} />
                 )}
 
+                <Typography variant='h5' component='p' sx={{mb: '20px', whiteSpace: 'pre'}}>
+                    {nextGame[0]?.text}
+                </Typography>
+
                 <Button variant='contained' sx={{mb: '20px'}}>
                     Войти в игру
                 </Button>

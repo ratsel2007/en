@@ -10,6 +10,9 @@ export class GameModel extends TimeStamps {
   image: string;
 
   @prop()
+  text: string;
+
+  @prop()
   timeStart: Date;
 
   @prop()

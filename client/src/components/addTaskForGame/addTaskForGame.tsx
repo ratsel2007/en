@@ -10,18 +10,30 @@ import {useEffect} from 'react';
 import {getAllTasks} from '../../store/action-creators/task';
 import {TaskInGame} from '../task/taskInGame';
 import Typography from '@mui/material/Typography';
+import {EditGameForm} from '../common/forms/editGameForm';
+import {useGameState} from '../../store/reducers/gameSlice';
 
 export const AddTaskForGame = () => {
     const dispatch = useAppDispatch();
     const {setModalOpen} = useModalActions();
     const {
-        modalOpen: {addTask},
+        modalOpen: {addTask, editGame},
     } = useModalState();
 
     const {tasks} = useTaskState();
+    const {nextGame} = useGameState();
 
-    const handleModalOpen = () => {
-        dispatch(setModalOpen('addTask'));
+    const handleModalOpen = (e: React.MouseEvent<HTMLButtonElement>) => {
+        switch (e.currentTarget.dataset.name) {
+            case 'addTask':
+                dispatch(setModalOpen('addTask'));
+                break;
+            case 'editGame':
+                dispatch(setModalOpen('editGame'));
+                break;
+            default:
+                break;
+        }
     };
 
     useEffect(() => {
@@ -33,10 +45,10 @@ export const AddTaskForGame = () => {
             <Header />
             <Container sx={{paddingTop: '20px'}}>
                 <Stack>
-                    <Button variant='contained' sx={{mb: '15px'}}>
+                    <Button data-name='editGame' variant='contained' sx={{mb: '15px'}} onClick={handleModalOpen}>
                         Редактировать общие данные игры
                     </Button>
-                    <Button variant='contained' sx={{mb: '15px'}} onClick={handleModalOpen}>
+                    <Button data-name='addTask' variant='contained' sx={{mb: '15px'}} onClick={handleModalOpen}>
                         Добавить задание
                     </Button>
                 </Stack>
@@ -56,6 +68,12 @@ export const AddTaskForGame = () => {
             {addTask && (
                 <ModalWindow>
                     <AddTaskForm />
+                </ModalWindow>
+            )}
+
+            {editGame && (
+                <ModalWindow>
+                    <EditGameForm game={nextGame} />
                 </ModalWindow>
             )}
         </>

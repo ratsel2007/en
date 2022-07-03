@@ -19,6 +19,10 @@ export const AddTaskForm = () => {
         music: '',
         video: '',
         text: '',
+        image2: '',
+        music2: '',
+        video2: '',
+        text2: '',
         codeLevel: '',
         codeDescription: '',
         address: [],
@@ -55,6 +59,7 @@ export const AddTaskForm = () => {
                     name='title'
                     label='Название задания'
                     variant='outlined'
+                    required
                     sx={{mb: '10px'}}
                     onChange={handleChangeTaskData}
                 />
@@ -94,6 +99,40 @@ export const AddTaskForm = () => {
                     type='text'
                     name='text'
                     label='Текст задания'
+                    multiline
+                    rows={4}
+                    variant='outlined'
+                    sx={{mb: '10px'}}
+                    onChange={handleChangeTaskData}
+                />
+                <TextField
+                    type='text'
+                    name='image2'
+                    label='Ссылка на картинку №2'
+                    variant='outlined'
+                    sx={{mb: '10px'}}
+                    onChange={handleChangeTaskData}
+                />
+                <TextField
+                    type='text'
+                    name='video2'
+                    label='Ссылка на видео №2'
+                    variant='outlined'
+                    sx={{mb: '10px'}}
+                    onChange={handleChangeTaskData}
+                />
+                <TextField
+                    type='text'
+                    name='music2'
+                    label='Ссылка на аудио №2'
+                    variant='outlined'
+                    sx={{mb: '10px'}}
+                    onChange={handleChangeTaskData}
+                />
+                <TextField
+                    type='text'
+                    name='text2'
+                    label='Текст задания №2'
                     multiline
                     rows={4}
                     variant='outlined'

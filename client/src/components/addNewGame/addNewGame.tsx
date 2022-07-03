@@ -14,6 +14,7 @@ export const AddNewGame = () => {
     const [gameData, setGameData] = useState<CreateGameDto>({
         title: '',
         image: '',
+        text: '',
         date: new Date(),
         gameAuthor: authUser.name,
     });
@@ -46,6 +47,16 @@ export const AddNewGame = () => {
                             type='text'
                             name='image'
                             label='Сслыка на изображение'
+                            variant='outlined'
+                            sx={{mb: '10px'}}
+                            onChange={handleChangeGameData}
+                        />
+                        <TextField
+                            type='text'
+                            name='text'
+                            label='Описание игры'
+                            multiline
+                            rows={10}
                             variant='outlined'
                             sx={{mb: '10px'}}
                             onChange={handleChangeGameData}

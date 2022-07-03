@@ -24,6 +24,18 @@ export class TaskModel extends TimeStamps {
   text?: string;
 
   @prop()
+  image2?: string;
+
+  @prop()
+  video2?: string;
+
+  @prop()
+  music2?: string;
+
+  @prop()
+  text2?: string;
+
+  @prop()
   codeLevel: string;
 
   @prop()

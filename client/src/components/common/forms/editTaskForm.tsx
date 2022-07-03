@@ -23,6 +23,10 @@ export const EditTaskForm: FC<EditTaskProps> = ({task}) => {
         music: task.music,
         video: task.video,
         text: task.text,
+        image2: task.image2,
+        music2: task.music2,
+        video2: task.video2,
+        text2: task.text2,
         codeLevel: task.codeLevel,
         codeDescription: task.codeDescription,
         address: task.address,
@@ -59,6 +63,7 @@ export const EditTaskForm: FC<EditTaskProps> = ({task}) => {
                     name='title'
                     label='Название задания'
                     value={editTaskData.title}
+                    required
                     variant='outlined'
                     sx={{mb: '10px'}}
                     onChange={handleChangeEditTaskData}
@@ -104,6 +109,44 @@ export const EditTaskForm: FC<EditTaskProps> = ({task}) => {
                     name='text'
                     label='Текст задания'
                     value={editTaskData.text}
+                    multiline
+                    rows={4}
+                    variant='outlined'
+                    sx={{mb: '10px'}}
+                    onChange={handleChangeEditTaskData}
+                />
+                <TextField
+                    type='text'
+                    name='image2'
+                    label='Ссылка на картинку №2'
+                    value={editTaskData.image2}
+                    variant='outlined'
+                    sx={{mb: '10px'}}
+                    onChange={handleChangeEditTaskData}
+                />
+                <TextField
+                    type='text'
+                    name='video2'
+                    label='Ссылка на видео №2'
+                    value={editTaskData.video2}
+                    variant='outlined'
+                    sx={{mb: '10px'}}
+                    onChange={handleChangeEditTaskData}
+                />
+                <TextField
+                    type='text'
+                    name='music2'
+                    label='Ссылка на аудио №2'
+                    value={editTaskData.music2}
+                    variant='outlined'
+                    sx={{mb: '10px'}}
+                    onChange={handleChangeEditTaskData}
+                />
+                <TextField
+                    type='text'
+                    name='text2'
+                    label='Текст задания №2'
+                    value={editTaskData.text2}
                     multiline
                     rows={4}
                     variant='outlined'

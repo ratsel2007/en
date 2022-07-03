@@ -5,7 +5,7 @@ const initialOpenState = {
     globalOpen: false,
     addTask: false,
     editTask: false,
-    editGameData: false,
+    editGame: false,
 };
 
 export type Modals = keyof typeof initialOpenState;
@@ -15,7 +15,7 @@ export interface ModalState {
         globalOpen: boolean;
         addTask: boolean;
         editTask: boolean;
-        editGameData: boolean;
+        editGame: boolean;
     };
 }
 

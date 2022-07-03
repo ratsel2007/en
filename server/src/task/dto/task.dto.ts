@@ -20,6 +20,18 @@ export class CreateTaskDto {
   text?: string;
 
   @IsString()
+  image2?: string;
+
+  @IsString()
+  video2?: string;
+
+  @IsString()
+  music2?: string;
+
+  @IsString()
+  text2?: string;
+
+  @IsString()
   codeLevel: string;
 
   @IsString()

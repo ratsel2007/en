@@ -45,9 +45,13 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
                     <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
                         {task.description}
                     </Typography>
-                    <img className='task-for-author__image' src={task.image} alt={task.title} />
+                    {task.image && <img className='task-for-author__image' src={task.image} alt={task.title} />}
                     <Typography component='p' sx={{flexGrow: 1, mb: '10px', whiteSpace: 'pre'}}>
                         {task.text}
+                    </Typography>
+                    {task.image2 && <img className='task-for-author__image' src={task.image2} alt={task.title} />}
+                    <Typography component='p' sx={{flexGrow: 1, mb: '10px', whiteSpace: 'pre'}}>
+                        {task.text2}
                     </Typography>
                     <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
                         Уровни кодов: {task.codeLevel}
