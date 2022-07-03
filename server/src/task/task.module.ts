@@ -11,7 +11,7 @@ import { TaskService } from './task.service';
       {
         typegooseClass: TaskModel,
         schemaOptions: {
-          collection: 'TaskForAuthor',
+          collection: 'TaskInGame',
         },
       },
     ]),

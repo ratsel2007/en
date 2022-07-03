@@ -14,4 +14,10 @@ export class GameModel extends TimeStamps {
 
   @prop()
   gameAuthor: string;
+
+  @prop({ default: false })
+  isOpen: false;
+
+  @prop({ type: () => [String] })
+  teamInGame: string[];
 }

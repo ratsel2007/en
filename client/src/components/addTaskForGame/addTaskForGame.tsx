@@ -8,7 +8,7 @@ import {AddTaskForm} from '../common/forms/addTaskForm';
 import {useTaskState} from '../../store/reducers/taskSlice';
 import {useEffect} from 'react';
 import {getAllTasks} from '../../store/action-creators/task';
-import {TaskForAuthor} from '../task/taskForAuthor';
+import {TaskInGame} from '../task/taskInGame';
 import Typography from '@mui/material/Typography';
 
 export const AddTaskForGame = () => {
@@ -49,7 +49,7 @@ export const AddTaskForGame = () => {
 
                 {tasks &&
                     tasks.map((task) => {
-                        return <TaskForAuthor key={task.title} task={task} />;
+                        return <TaskInGame key={task.title} task={task} />;
                     })}
             </Container>
 

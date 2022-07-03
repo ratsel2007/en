@@ -12,6 +12,7 @@ import {Routes, Route} from 'react-router-dom';
 import {getUserLocalData} from './helper/userLocaData';
 import {RequireAuthorStatus} from './hoc/RequireAuthorStatus';
 import {AddTaskForGame} from './components/addTaskForGame/addTaskForGame';
+import {fetchNextGame} from './store/action-creators/game';
 
 export function App() {
     const dispatch = useAppDispatch();
@@ -23,6 +24,10 @@ export function App() {
             dispatch(reLogin(token));
         }
     }, [token]);
+
+    useEffect(() => {
+        dispatch(fetchNextGame());
+    }, []);
 
     return (
         <>

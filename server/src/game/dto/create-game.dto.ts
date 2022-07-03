@@ -1,4 +1,4 @@
-import { IsDate, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsDate, IsString } from 'class-validator';
 
 export class CreateGameDto {
   @IsString()
@@ -14,4 +14,22 @@ export class CreateGameDto {
   gameAuthor: string;
 }
 
-export type PatchGameDto = Partial<CreateGameDto>;
+export class PatchGameDto {
+  @IsString()
+  title: string;
+
+  @IsString()
+  image: string;
+
+  @IsDate()
+  date?: Date;
+
+  @IsString()
+  gameAuthor: string;
+
+  @IsBoolean()
+  isOpen: false;
+
+  @IsArray()
+  teamInGame: string[];
+}

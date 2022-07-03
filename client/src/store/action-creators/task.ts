@@ -33,7 +33,7 @@ export const editTask = (id: Types.ObjectId, dto: PatchTaskDto) => {
 
 export const deleteTask = (id: Types.ObjectId) => {
     return async (dispatch: AppDispatch) => {
-        await axios.delete(TASKS_URL, {data: id});
+        await axios.delete(TASKS_URL + id, {data: id});
 
         dispatch(setDeleteTask(id));
     };
