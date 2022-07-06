@@ -1,7 +1,6 @@
 import {TaskModel} from '../../../../server/src/task/task.model';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {useAppSelector} from '../../hooks/redux';
-import {PatchTaskDto} from '../../../../server/src/task/dto/task.dto';
 import {Types} from 'mongoose';
 
 export interface TaskState {
@@ -9,7 +8,7 @@ export interface TaskState {
 }
 export interface EditTaskPayload {
     id: Types.ObjectId;
-    data: PatchTaskDto;
+    data: TaskModel;
 }
 
 const initialState: TaskState = {

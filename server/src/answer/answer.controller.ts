@@ -19,7 +19,7 @@ export class AnswerController {
     return this.answerService.getAllAnswers();
   }
 
-  @Get('/team')
+  @Get('')
   async getAnswersByTeam(@Query('team') team: string) {
     return this.answerService.getAnswersByTeam(team);
   }

@@ -13,6 +13,9 @@ import {getUserLocalData} from './helper/userLocaData';
 import {RequireAuthorStatus} from './hoc/RequireAuthorStatus';
 import {AddTaskForGame} from './components/addTaskForGame/addTaskForGame';
 import {fetchNextGame} from './store/action-creators/game';
+import {GameDashboard} from './components/gameDashboard/gameDashboard';
+import {getAllTasks} from './store/action-creators/task';
+import {useMount} from './hooks/useMount';
 
 export function App() {
     const dispatch = useAppDispatch();
@@ -25,15 +28,17 @@ export function App() {
         }
     }, [token]);
 
-    useEffect(() => {
+    useMount(() => {
         dispatch(fetchNextGame());
-    }, []);
+        dispatch(getAllTasks());
+    });
 
     return (
         <>
             <Routes>
                 <Route path='/' element={<Main />} />
                 <Route path='/login' element={<LoginPage />} />
+                <Route path='/game' element={<GameDashboard />} />
                 <Route
                     path='/add-game'
                     element={

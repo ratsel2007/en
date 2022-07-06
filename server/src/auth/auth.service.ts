@@ -27,6 +27,7 @@ export class AuthService {
       password: await hash(dto.password, salt),
       name: dto.name,
       author: dto.author,
+      team: dto.team,
     });
     return newUser.save();
   }

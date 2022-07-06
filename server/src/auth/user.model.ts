@@ -13,7 +13,7 @@ export class UserModel extends TimeStamps {
   @prop()
   name: string;
 
-  @prop()
+  @prop({ default: '' })
   team?: string;
 
   @prop({ default: false })

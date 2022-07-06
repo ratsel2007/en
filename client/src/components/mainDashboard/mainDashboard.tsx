@@ -12,6 +12,8 @@ export const MainDashboard = () => {
         return <h2>Loading...</h2>;
     }
 
+    const userTeamInGame = nextGame[0].teamInGame.includes(authUser?.team);
+
     return (
         <Container sx={{paddingTop: '20px'}}>
             <Stack>
@@ -29,9 +31,11 @@ export const MainDashboard = () => {
                     {nextGame[0]?.text}
                 </Typography>
 
-                <Button variant='contained' sx={{mb: '20px'}}>
-                    Войти в игру
-                </Button>
+                {userTeamInGame && (
+                    <Button variant='contained' sx={{mb: '20px'}}>
+                        Войти в игру
+                    </Button>
+                )}
 
                 {authUser?.name === nextGame[0].gameAuthor && (
                     <Link to='/add-tasks'>

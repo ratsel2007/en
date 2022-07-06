@@ -15,23 +15,6 @@ export class CreateGameDto {
 
   @IsString()
   gameAuthor: string;
-}
-
-export class PatchGameDto {
-  @IsString()
-  title: string;
-
-  @IsString()
-  image: string;
-
-  @IsString()
-  text: string;
-
-  @IsDate()
-  date?: Date;
-
-  @IsString()
-  gameAuthor: string;
 
   @IsBoolean()
   isOpen?: false;
@@ -39,3 +22,5 @@ export class PatchGameDto {
   @IsArray()
   teamInGame?: string[];
 }
+
+export type PatchGameDto = Partial<CreateGameDto>;

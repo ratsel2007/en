@@ -3,9 +3,9 @@ import {
   Controller,
   Get,
   NotFoundException,
-  Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { CreateTeamDto } from './dto/team.dto';
 import { TeamService } from './team.service';
@@ -20,9 +20,9 @@ export class TeamController {
     return this.teamService.getAllTeams();
   }
 
-  @Get(':id')
-  async getTeamById(@Param('id') id: string) {
-    const team = await this.teamService.getTeamById(id);
+  @Get('')
+  async getTeamByTitle(@Query() title: string) {
+    const team = await this.teamService.findTeamByTitle(title);
 
     if (!team) {
       throw new NotFoundException(TEAM_NOT_FOUND);

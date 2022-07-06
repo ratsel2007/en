@@ -17,31 +17,30 @@ export class TeamService {
     return this.teamModel.find().exec();
   }
 
-  async getTeamById(id: string): Promise<DocumentType<TeamModel>> {
-    return this.teamModel.findById(id).exec();
-  }
+  // async getTeamByName(name: string) {
+  //   return this.teamModel.find({ name }).exec();
+  // }
 
   async createTeam(dto: CreateTeamDto): Promise<DocumentType<TeamModel>> {
     return this.teamModel.create(dto);
   }
 
   async findTeamByTitle(title: string) {
-    console.log(title);
-    // return this.teamModel.findOne({ title }).exec();
+    return this.teamModel.find({ title }).exec();
   }
 
   async increaseTeamProgress({ teamId, answerId, answer }) {
-    const team = await this.getTeamById(teamId);
+    // const team = await this.getTeamById(teamId);
 
     const correctAnswer = await this.answerService.checkAnswer(
       answerId,
       answer,
     );
 
-    if (correctAnswer) {
-      team.progressInGame++;
-    }
-
-    return { team, correctAnswer };
+    // if (correctAnswer) {
+    //   team.progressInGame++;
+    // }
+    //
+    // return { team, correctAnswer };
   }
 }

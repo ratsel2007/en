@@ -17,6 +17,9 @@ export const gameSlice = createSlice({
         setNextGame(state, {payload: game}: PayloadAction<GameModel>) {
             state.nextGame = game;
         },
+        editNextGame(state, {payload: data}: PayloadAction<GameModel>) {
+            state.nextGame = data;
+        },
     },
 });
 

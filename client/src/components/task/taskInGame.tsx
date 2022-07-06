@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {FC} from 'react';
 import {TaskModel} from '../../../../server/src/task/task.model';
-import {Box, Stack, Button} from '@mui/material';
+import {Container, Box, Stack, Button, TextField} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import {useAppDispatch} from '../../hooks/redux';
 import {useModalActions, useModalState} from '../../store/reducers/modalSlice';
@@ -21,8 +21,6 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
 
     const {setModalOpen} = useModalActions();
 
-    const isAuthor = nextGame[0]?.gameAuthor === authUser.name;
-
     const {
         modalOpen: {editTask},
     } = useModalState();
@@ -35,8 +33,14 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
         await dispatch(deleteTask(task._id));
     };
 
+    if (nextGame === null) {
+        return <h1>Loading...</h1>;
+    }
+
+    const isAuthor = nextGame[0]?.gameAuthor === authUser.name;
+
     return (
-        <>
+        <Container sx={{mt: '15px'}}>
             <Box className='task-for-author'>
                 <Stack>
                     <Typography variant='h4' component='h4' sx={{flexGrow: 1, mb: '10px'}}>
@@ -68,15 +72,17 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
                             </span>
                         ))}
                     </Typography>
-                    <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
-                        Коды на уровне:
-                        <br />
-                        {task.codeAnswer.map((codeAnswer, index) => (
-                            <span className='task-for-author__note' key={index}>
-                                {codeAnswer}
-                            </span>
-                        ))}
-                    </Typography>
+                    {isAuthor && (
+                        <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
+                            Коды на уровне:
+                            <br />
+                            {task.codeAnswer.map((codeAnswer, index) => (
+                                <span className='task-for-author__note' key={index}>
+                                    {codeAnswer}
+                                </span>
+                            ))}
+                        </Typography>
+                    )}
                     <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
                         Подсказка 1: {task.hint1}
                     </Typography>
@@ -99,11 +105,25 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
                 </Stack>
             </Box>
 
+            {!isAuthor && (
+                <Box sx={{display: 'flex', gap: '20px', mt: '15px'}}>
+                    <TextField
+                        type='text'
+                        name='answer'
+                        label='ответ'
+                        variant='outlined'
+                        required
+                        sx={{width: '100%'}}
+                    />
+                    <Button variant='contained'>Отправить</Button>
+                </Box>
+            )}
+
             {editTask && (
                 <ModalWindow>
                     <EditTaskForm task={task} />
                 </ModalWindow>
             )}
-        </>
+        </Container>
     );
 };

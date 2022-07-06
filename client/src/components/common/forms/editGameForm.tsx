@@ -5,23 +5,28 @@ import {Button, Stack, TextField} from '@mui/material';
 import {GameModel} from '../../../../../server/src/game/game.model';
 import {PatchGameDto} from '../../../../../server/src/game/dto/create-game.dto';
 import {useArrayDataToStringData} from '../../../hooks/useArrayDataToStringData';
+import {useAppDispatch} from '../../../hooks/redux';
+import {editGame} from '../../../store/action-creators/game';
+import {useModalActions} from '../../../store/reducers/modalSlice';
 
 export type EditGameFormProps = {
     game: GameModel;
 };
 
 export const EditGameForm: FC<EditGameFormProps> = ({game}) => {
+    const dispatch = useAppDispatch();
+
+    const {setModalClose} = useModalActions();
+
     const [editGameData, setEditGameData] = useState<PatchGameDto>({
         title: game[0].title,
         image: game[0].image,
         text: game[0].text,
         date: game[0].date,
         gameAuthor: game[0].gameAuthor,
-        isOpen: false,
-        teamInGame: [],
+        isOpen: game[0].isOpen,
+        teamInGame: game[0].teamInGame,
     });
-
-    console.log(game);
 
     const handleChangeEditGameData = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         if (e.target.name === 'teamInGame') {
@@ -33,6 +38,10 @@ export const EditGameForm: FC<EditGameFormProps> = ({game}) => {
 
     const handleSubmitEditGameDataForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        dispatch(editGame(game[0]._id, editGameData));
+
+        dispatch(setModalClose());
     };
 
     return (
