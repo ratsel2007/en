@@ -5,6 +5,8 @@ import { TeamModel } from './team.model';
 import { TeamService } from './team.service';
 import { AnswerModel } from '../answer/answer.model';
 import { AnswerService } from '../answer/answer.service';
+import { TaskService } from '../task/task.service';
+import { TaskModel } from '../task/task.model';
 
 @Module({
   controllers: [TeamController],
@@ -22,8 +24,14 @@ import { AnswerService } from '../answer/answer.service';
           collection: 'Answer',
         },
       },
+      {
+        typegooseClass: TaskModel,
+        schemaOptions: {
+          collection: 'TaskInGame',
+        },
+      },
     ]),
   ],
-  providers: [TeamService, AnswerService],
+  providers: [TeamService, AnswerService, TaskService],
 })
 export class TeamModule {}

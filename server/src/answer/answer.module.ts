@@ -3,9 +3,11 @@ import { AnswerService } from './answer.service';
 import { AnswerController } from './answer.controller';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { AnswerModel } from './answer.model';
+import { TaskService } from '../task/task.service';
+import { TaskModel } from '../task/task.model';
 
 @Module({
-  providers: [AnswerService],
+  controllers: [AnswerController],
   imports: [
     TypegooseModule.forFeature([
       {
@@ -14,8 +16,14 @@ import { AnswerModel } from './answer.model';
           collection: 'Answer',
         },
       },
+      {
+        typegooseClass: TaskModel,
+        schemaOptions: {
+          collection: 'TaskInGame',
+        },
+      },
     ]),
   ],
-  controllers: [AnswerController],
+  providers: [AnswerService, TaskService],
 })
 export class AnswerModule {}

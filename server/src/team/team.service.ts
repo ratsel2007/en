@@ -4,6 +4,7 @@ import { TeamModel } from './team.model';
 import { DocumentType, ModelType } from '@typegoose/typegoose/lib/types';
 import { CreateTeamDto } from './dto/team.dto';
 import { AnswerService } from '../answer/answer.service';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class TeamService {
@@ -17,10 +18,6 @@ export class TeamService {
     return this.teamModel.find().exec();
   }
 
-  // async getTeamByName(name: string) {
-  //   return this.teamModel.find({ name }).exec();
-  // }
-
   async createTeam(dto: CreateTeamDto): Promise<DocumentType<TeamModel>> {
     return this.teamModel.create(dto);
   }
@@ -29,18 +26,25 @@ export class TeamService {
     return this.teamModel.find({ title }).exec();
   }
 
-  async increaseTeamProgress({ teamId, answerId, answer }) {
-    // const team = await this.getTeamById(teamId);
+  async patchTeam(teamId: Types.ObjectId, dto) {
+    return this.teamModel.findByIdAndUpdate(teamId, dto, { new: true });
+  }
 
-    const correctAnswer = await this.answerService.checkAnswer(
-      answerId,
-      answer,
-    );
+  async increaseTeamProgress({ teamTitle, taskId, answer }) {
+    const team = await this.findTeamByTitle(teamTitle);
 
-    // if (correctAnswer) {
-    //   team.progressInGame++;
-    // }
-    //
-    // return { team, correctAnswer };
+    const { rightVersion, increaseProgress } =
+      await this.answerService.checkAnswer(taskId, answer);
+
+    const patchTeamData = {
+      ...team[0],
+      [team[0].progressInGame]: team[0].progressInGame++,
+    };
+
+    if (increaseProgress) {
+      await this.patchTeam(team[0]._id, patchTeamData);
+    }
+
+    return { team, rightVersion };
   }
 }
