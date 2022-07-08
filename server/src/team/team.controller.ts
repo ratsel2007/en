@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Patch,
@@ -41,5 +42,10 @@ export class TeamController {
     @Body() data: { teamTitle: string; taskId: string; answer: string },
   ) {
     return this.teamService.increaseTeamProgress(data);
+  }
+
+  @Delete()
+  async removeAllTeams() {
+    return this.teamService.removeTeams();
   }
 }

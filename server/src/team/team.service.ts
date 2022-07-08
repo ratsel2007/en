@@ -23,7 +23,7 @@ export class TeamService {
   }
 
   async findTeamByTitle(title: string) {
-    return this.teamModel.find({ title }).exec();
+    return this.teamModel.findOne({ title }).exec();
   }
 
   async patchTeam(teamId: Types.ObjectId, dto) {
@@ -37,14 +37,18 @@ export class TeamService {
       await this.answerService.checkAnswer(taskId, answer);
 
     const patchTeamData = {
-      ...team[0],
-      [team[0].progressInGame]: team[0].progressInGame++,
+      ...team,
+      [team.progressInGame]: team.progressInGame++,
     };
 
     if (increaseProgress) {
-      await this.patchTeam(team[0]._id, patchTeamData);
+      await this.patchTeam(team._id, patchTeamData);
     }
 
     return { team, rightVersion };
+  }
+
+  async removeTeams() {
+    return this.teamModel.deleteMany();
   }
 }
