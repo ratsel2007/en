@@ -7,7 +7,7 @@ const {setCurrentTeam} = useTeamActions();
 
 export const getTeamByTitle = (title: string) => {
     return async (dispatch: AppDispatch) => {
-        const {data} = await axios.get(TEAMS_URL + `?title=${title}`);
+        const {data} = await axios.get(TEAMS_URL + `/c/?title=${title}`);
 
         dispatch(setCurrentTeam(data));
     };

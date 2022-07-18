@@ -32,9 +32,11 @@ export const MainDashboard = () => {
                 </Typography>
 
                 {userTeamInGame && (
-                    <Button variant='contained' sx={{mb: '20px'}}>
-                        Войти в игру
-                    </Button>
+                    <Link to='/game'>
+                        <Button variant='contained' sx={{mb: '20px'}}>
+                            Войти в игру
+                        </Button>
+                    </Link>
                 )}
 
                 {authUser?.name === nextGame[0].gameAuthor && (

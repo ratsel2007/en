@@ -21,8 +21,10 @@ export class TeamController {
     return this.teamService.getAllTeams();
   }
 
-  @Get('')
-  async getTeamByTitle(@Query() title: string) {
+  @Get('/c')
+  async getTeamByTitle(@Query() teamTitle) {
+    const { title } = teamTitle;
+
     const team = await this.teamService.findTeamByTitle(title);
 
     if (!team) {
@@ -42,6 +44,11 @@ export class TeamController {
     @Body() data: { teamTitle: string; taskId: string; answer: string },
   ) {
     return this.teamService.increaseTeamProgress(data);
+  }
+
+  @Patch('/teams-to-null')
+  async decreaseAllTeamsProgressToNull() {
+    return this.teamService.allTeamsProgressToNull();
   }
 
   @Delete()

@@ -4,6 +4,7 @@ import GameReducer from './reducers/gameSlice';
 import TaskReducer from './reducers/taskSlice';
 import ModalReducer from './reducers/modalSlice';
 import TeamReducer from './reducers/teamSlice';
+import AnswerReducer from './reducers/answerSlice';
 
 const reducer = combineReducers({
     auth: AuthReducer,
@@ -11,6 +12,7 @@ const reducer = combineReducers({
     task: TaskReducer,
     modal: ModalReducer,
     team: TeamReducer,
+    answer: AnswerReducer,
 });
 
 export const setupStore = () => {

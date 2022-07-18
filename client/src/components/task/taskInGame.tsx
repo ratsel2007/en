@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FC} from 'react';
+import {FC, useState} from 'react';
 import {TaskModel} from '../../../../server/src/task/task.model';
 import {Container, Box, Stack, Button, TextField} from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -10,6 +10,7 @@ import {EditTaskForm} from '../common/forms/editTaskForm';
 import {deleteTask} from '../../store/action-creators/task';
 import {useAuthState} from '../../store/reducers/authSlice';
 import {useGameState} from '../../store/reducers/gameSlice';
+import {checkAnswer} from '../../store/action-creators/answer-actions';
 
 type TaskProps = {
     task: TaskModel;
@@ -20,6 +21,8 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
     const {authUser} = useAuthState();
 
     const {setModalOpen} = useModalActions();
+
+    const [teamAnswer, setTeamAnswer] = useState<string>('');
 
     const {
         modalOpen: {editTask},
@@ -36,6 +39,22 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
     if (nextGame === null) {
         return <h1>Loading...</h1>;
     }
+
+    const handleInputTeamAnswer = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTeamAnswer(e.currentTarget.value);
+    };
+
+    const checkTeamAnswer = () => {
+        const data = {
+            teamTitle: 'ОБП',
+            taskId: task._id,
+            answer: teamAnswer.trim().toLowerCase(),
+        };
+
+        dispatch(checkAnswer(data));
+
+        setTeamAnswer('');
+    };
 
     const isAuthor = nextGame[0]?.gameAuthor === authUser.name;
 
@@ -111,11 +130,14 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
                         type='text'
                         name='answer'
                         label='ответ'
+                        value={teamAnswer}
                         variant='outlined'
-                        required
                         sx={{width: '100%'}}
+                        onChange={handleInputTeamAnswer}
                     />
-                    <Button variant='contained'>Отправить</Button>
+                    <Button variant='contained' onClick={checkTeamAnswer}>
+                        Отправить
+                    </Button>
                 </Box>
             )}
 

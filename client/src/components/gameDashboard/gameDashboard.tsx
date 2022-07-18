@@ -18,14 +18,14 @@ export const GameDashboard = () => {
     useEffect(() => {
         dispatch(getTeamByTitle(authUser?.team));
         dispatch(getAllTasks());
-    }, []);
+    }, [authUser?.team]);
 
     const isReady = currentTeam !== null && tasks.length;
 
     return (
         <>
             <Header />
-            {isReady && <TaskInGame task={tasks[currentTeam[0].progressInGame]} />}
+            {isReady && <TaskInGame task={tasks[currentTeam.progressInGame]} />}
         </>
     );
 };

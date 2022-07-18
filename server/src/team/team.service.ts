@@ -45,7 +45,11 @@ export class TeamService {
       await this.patchTeam(team._id, patchTeamData);
     }
 
-    return { team, rightVersion };
+    return { team, rightVersion, increaseProgress };
+  }
+
+  async allTeamsProgressToNull() {
+    return this.teamModel.updateMany({ $set: { progressInGame: 0 } });
   }
 
   async removeTeams() {
