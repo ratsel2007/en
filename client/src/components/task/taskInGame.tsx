@@ -15,6 +15,7 @@ import {checkAnswer} from '../../store/action-creators/answer-actions';
 type TaskProps = {
     task: TaskModel;
 };
+
 export const TaskInGame: FC<TaskProps> = ({task}) => {
     const dispatch = useAppDispatch();
     const {nextGame} = useGameState();
@@ -46,7 +47,7 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
 
     const checkTeamAnswer = () => {
         const data = {
-            teamTitle: 'ОБП',
+            teamTitle: authUser.team.stuffTitle,
             taskId: task._id,
             answer: teamAnswer.trim().toLowerCase(),
         };
