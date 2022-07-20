@@ -1,5 +1,6 @@
 import { prop } from '@typegoose/typegoose';
 import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
+import { Types } from 'mongoose';
 
 export interface UserModel extends Base {}
 
@@ -13,8 +14,8 @@ export class UserModel extends TimeStamps {
   @prop()
   name: string;
 
-  @prop({ default: '' })
-  team?: string;
+  @prop()
+  teamId?: Types.ObjectId;
 
   @prop({ default: false })
   author: boolean;

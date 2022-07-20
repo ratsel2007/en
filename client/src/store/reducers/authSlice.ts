@@ -1,9 +1,10 @@
 import {UserModel} from '../../../../server/src/auth/user.model';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {useAppSelector} from '../../hooks/redux';
+import {TeamModel} from '../../../../server/src/team/team.model';
 
 interface AuthState {
-    authUser: UserModel | null;
+    authUser: (UserModel & {team: TeamModel}) | null;
     isAuth: boolean;
 }
 
@@ -16,7 +17,7 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setAuthUser(state, {payload: user}: PayloadAction<UserModel>) {
+        setAuthUser(state, {payload: user}: PayloadAction<UserModel & {team: TeamModel}>) {
             state.authUser = user;
         },
         toggleIsAuth(state, action: PayloadAction<boolean>) {

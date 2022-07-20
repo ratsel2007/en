@@ -11,7 +11,7 @@ export class RegisterDto {
   name: string;
 
   @IsString()
-  team?: string;
+  teamId?: string;
 
   @IsBoolean()
   author?: boolean;

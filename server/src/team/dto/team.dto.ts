@@ -4,6 +4,9 @@ export class CreateTeamDto {
   @IsString()
   title: string;
 
+  @IsString()
+  stuffTitle: string;
+
   @IsArray()
   players?: string[];
 

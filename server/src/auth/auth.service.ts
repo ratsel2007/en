@@ -7,6 +7,7 @@ import { USER_NOT_FOUND, PASSWORD_WRONG, WRONG_TOKEN } from './auth.constants';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
 import { ReLoginDto } from './dto/relogin.dto';
+import { TeamModel } from '../team/team.model';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,22 @@ export class AuthService {
   ) {}
 
   async getAllUsers() {
-    return this.userModel.find().exec();
+    const users: (UserModel & { team: TeamModel })[] = await this.userModel
+      .aggregate([
+        { $match: {} },
+        {
+          $lookup: {
+            from: 'Team',
+            localField: 'teamId',
+            foreignField: '_id',
+            as: 'team',
+          },
+        },
+        { $unwind: '$team' },
+      ])
+      .exec();
+
+    return users;
   }
 
   async createUser(dto: RegisterDto) {
@@ -27,7 +43,7 @@ export class AuthService {
       password: await hash(dto.password, salt),
       name: dto.name,
       author: dto.author,
-      team: dto.team,
+      teamId: dto.teamId,
     });
     return newUser.save();
   }
@@ -59,7 +75,21 @@ export class AuthService {
 
   async login(email: string) {
     const payload = { email };
-    const user = await this.userModel.findOne({ email }).exec();
+    const user: UserModel & { team: TeamModel } = await this.userModel
+      .aggregate([
+        { $match: { email } },
+        {
+          $lookup: {
+            from: 'Team',
+            localField: 'teamId',
+            foreignField: '_id',
+            as: 'team',
+          },
+        },
+        { $unwind: '$team' },
+      ])
+      .exec()
+      .then((items) => items[0]);
 
     return {
       access_token: await this.jwtService.signAsync(payload),
@@ -71,7 +101,21 @@ export class AuthService {
     try {
       const user = await this.jwtService.verifyAsync(token);
       const { email } = user;
-      return this.userModel.findOne({ email }).exec();
+      return this.userModel
+        .aggregate([
+          { $match: { email } },
+          {
+            $lookup: {
+              from: 'Team',
+              localField: 'teamId',
+              foreignField: '_id',
+              as: 'team',
+            },
+          },
+          { $unwind: '$team' },
+        ])
+        .exec()
+        .then((items) => items[0]);
     } catch (e) {
       throw new UnauthorizedException(WRONG_TOKEN);
     }

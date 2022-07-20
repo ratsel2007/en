@@ -7,6 +7,9 @@ export class TeamModel extends TimeStamps {
   @prop()
   title: string;
 
+  @prop()
+  stuffTitle: string;
+
   @prop({ type: () => [String] })
   players: string[];
 

@@ -22,8 +22,8 @@ export class TeamService {
     return this.teamModel.create(dto);
   }
 
-  async findTeamByTitle(title: string) {
-    return this.teamModel.findOne({ title }).exec();
+  async findTeamByTitle(stuffTitle: string) {
+    return this.teamModel.findOne({ stuffTitle }).exec();
   }
 
   async patchTeam(teamId: Types.ObjectId, dto) {
