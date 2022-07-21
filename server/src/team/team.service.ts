@@ -48,7 +48,7 @@ export class TeamService {
       await this.patchTeam(team._id, patchTeamData);
     }
 
-    return { team, rightVersion, increaseProgress };
+    return { team, rightVersion, increaseProgress, taskId };
   }
 
   async allTeamsProgressToNull() {

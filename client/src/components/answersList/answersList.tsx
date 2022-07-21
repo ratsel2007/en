@@ -20,6 +20,10 @@ export const AnswersList: FC<AnswersListProps> = ({taskId}) => {
         dispatch(fetchAnswersByTeamAndTask(authUser.team.stuffTitle, taskId));
     }, []);
 
+    setTimeout(() => {
+        dispatch(fetchAnswersByTeamAndTask(authUser.team.stuffTitle, taskId));
+    }, 3000);
+
     return (
         <>
             {answerByTeamAndTask &&

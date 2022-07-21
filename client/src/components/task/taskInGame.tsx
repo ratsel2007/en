@@ -10,7 +10,12 @@ import {EditTaskForm} from '../common/forms/editTaskForm';
 import {deleteTask} from '../../store/action-creators/task';
 import {useAuthState} from '../../store/reducers/authSlice';
 import {useGameState} from '../../store/reducers/gameSlice';
-import {postNewAnswer} from '../../store/action-creators/answer-actions';
+import {
+    checkAnswer,
+    editAnswerToRight,
+    fetchAnswersByTeamAndTask,
+    postNewAnswer,
+} from '../../store/action-creators/answer-actions';
 import {CreateAnswerDto} from '../../../../server/src/answer/dto/answer.dto';
 import {AnswersList} from '../answersList/answersList';
 
@@ -47,7 +52,7 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
         setTeamAnswer(e.currentTarget.value);
     };
 
-    const checkTeamAnswer = () => {
+    const checkTeamAnswer = async () => {
         const data: CreateAnswerDto = {
             user: authUser.name,
             right: false,
@@ -56,9 +61,14 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
             answer: teamAnswer.trim().toLowerCase(),
         };
 
-        dispatch(postNewAnswer(data));
+        const {_id} = await dispatch(postNewAnswer(data));
 
-        // dispatch(checkAnswer(data));
+        const {rightVersion, taskId, team} = await dispatch(checkAnswer(data));
+
+        if (rightVersion) {
+            await dispatch(editAnswerToRight(_id));
+            dispatch(fetchAnswersByTeamAndTask(team.stuffTitle, taskId));
+        }
 
         setTeamAnswer('');
     };
@@ -84,7 +94,7 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
                             frameBorder='0'
                             allow='accelerometer; encrypted-media; gyroscope; picture-in-picture'
                             allowFullScreen
-                        ></iframe>
+                        />
                     )}
                     <Typography component='p' sx={{flexGrow: 1, mb: '10px', whiteSpace: 'pre'}}>
                         {task.text}
@@ -98,7 +108,7 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
                             frameBorder='0'
                             allow='accelerometer; encrypted-media; gyroscope; picture-in-picture'
                             allowFullScreen
-                        ></iframe>
+                        />
                     )}
                     <Typography component='p' sx={{flexGrow: 1, mb: '10px', whiteSpace: 'pre'}}>
                         {task.text2}

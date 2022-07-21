@@ -17,11 +17,23 @@ export const fetchAnswersByTeamAndTask = (teamTitle: string, taskId: string) => 
 export const checkAnswer = (candidateAnswer) => {
     return async (dispatch: AppDispatch) => {
         const {data} = await axios.patch(TEAMS_URL, candidateAnswer);
+
+        dispatch(fetchAnswersByTeamAndTask(data.team.stuffTitle, data.taskId));
+
+        return data;
     };
 };
 
 export const postNewAnswer = (answer: CreateAnswerDto) => {
     return async (dispatch: AppDispatch) => {
         const {data} = await axios.post(ANSWER_URL, answer);
+
+        return data;
+    };
+};
+
+export const editAnswerToRight = (id: string) => {
+    return async (dispatch: AppDispatch) => {
+        await axios.patch(ANSWER_URL + id, {right: true});
     };
 };

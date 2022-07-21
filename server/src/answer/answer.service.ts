@@ -40,6 +40,7 @@ export class AnswerService {
 
     if (task.address.includes(answer)) {
       rightVersion = true;
+      await this.editAnswerToRight(taskId, { right: true });
     }
 
     if (task.codeAnswer.includes(answer)) {
