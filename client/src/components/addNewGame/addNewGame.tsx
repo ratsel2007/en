@@ -6,10 +6,12 @@ import {CreateGameDto} from '../../../../server/src/game/dto/create-game.dto';
 import {useAuthState} from '../../store/reducers/authSlice';
 import {useAppDispatch} from '../../hooks/redux';
 import {createNewGame} from '../../store/action-creators/game';
+import {useNavigate} from 'react-router';
 
 export const AddNewGame = () => {
     const {authUser} = useAuthState();
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const [gameData, setGameData] = useState<CreateGameDto>({
         title: '',
@@ -27,6 +29,8 @@ export const AddNewGame = () => {
         e.preventDefault();
 
         await dispatch(createNewGame(gameData));
+
+        navigate('/');
     };
 
     return (

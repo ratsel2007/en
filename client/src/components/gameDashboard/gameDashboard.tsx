@@ -18,7 +18,7 @@ export const GameDashboard: FC = () => {
         if (authUser) {
             dispatch(getTeamByTitle(authUser.team.stuffTitle));
         }
-    });
+    }, [authUser]);
 
     const isReady = currentTeam !== null && tasks.length;
 

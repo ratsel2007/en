@@ -10,7 +10,9 @@ import {EditTaskForm} from '../common/forms/editTaskForm';
 import {deleteTask} from '../../store/action-creators/task';
 import {useAuthState} from '../../store/reducers/authSlice';
 import {useGameState} from '../../store/reducers/gameSlice';
-import {checkAnswer} from '../../store/action-creators/answer-actions';
+import {postNewAnswer} from '../../store/action-creators/answer-actions';
+import {CreateAnswerDto} from '../../../../server/src/answer/dto/answer.dto';
+import {AnswersList} from '../answersList/answersList';
 
 type TaskProps = {
     task: TaskModel;
@@ -46,13 +48,17 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
     };
 
     const checkTeamAnswer = () => {
-        const data = {
+        const data: CreateAnswerDto = {
+            user: authUser.name,
+            right: false,
             teamTitle: authUser.team.stuffTitle,
             taskId: task._id,
             answer: teamAnswer.trim().toLowerCase(),
         };
 
-        dispatch(checkAnswer(data));
+        dispatch(postNewAnswer(data));
+
+        // dispatch(checkAnswer(data));
 
         setTeamAnswer('');
     };
@@ -60,7 +66,7 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
     const isAuthor = nextGame[0]?.gameAuthor === authUser.name;
 
     return (
-        <Container sx={{mt: '15px'}}>
+        <Container sx={{mt: '15px', pb: '30px'}}>
             <Box className='task-for-author'>
                 <Stack>
                     <Typography variant='h4' component='h4' sx={{flexGrow: 1, mb: '10px'}}>
@@ -70,10 +76,30 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
                         {task.description}
                     </Typography>
                     {task.image && <img className='task-for-author__image' src={task.image} alt={task.title} />}
+                    {task.video && (
+                        <iframe
+                            width='400'
+                            height='300'
+                            src={task.video}
+                            frameBorder='0'
+                            allow='accelerometer; encrypted-media; gyroscope; picture-in-picture'
+                            allowFullScreen
+                        ></iframe>
+                    )}
                     <Typography component='p' sx={{flexGrow: 1, mb: '10px', whiteSpace: 'pre'}}>
                         {task.text}
                     </Typography>
                     {task.image2 && <img className='task-for-author__image' src={task.image2} alt={task.title} />}
+                    {task.video2 && (
+                        <iframe
+                            width='400'
+                            height='300'
+                            src={task.video2}
+                            frameBorder='0'
+                            allow='accelerometer; encrypted-media; gyroscope; picture-in-picture'
+                            allowFullScreen
+                        ></iframe>
+                    )}
                     <Typography component='p' sx={{flexGrow: 1, mb: '10px', whiteSpace: 'pre'}}>
                         {task.text2}
                     </Typography>
@@ -83,15 +109,18 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
                     <Typography component='div' sx={{flexGrow: 1, mb: '10px', whiteSpace: 'pre'}}>
                         Описание кодов: <br /> {task.codeDescription}
                     </Typography>
-                    <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
-                        Проверочный сектор:
-                        <br />
-                        {task.address.map((address, index) => (
-                            <span className='task-for-author__note' key={index}>
-                                {address}
-                            </span>
-                        ))}
-                    </Typography>
+                    {isAuthor && (
+                        <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
+                            Проверочный сектор:
+                            <br />
+                            {task.address.map((address, index) => (
+                                <span className='task-for-author__note' key={index}>
+                                    {address}
+                                </span>
+                            ))}
+                        </Typography>
+                    )}
+
                     {isAuthor && (
                         <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
                             Коды на уровне:
@@ -103,15 +132,20 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
                             ))}
                         </Typography>
                     )}
-                    <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
-                        Подсказка 1: {task.hint1}
-                    </Typography>
-                    <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
-                        Подсказка 2: {task.hint2}
-                    </Typography>
-                    <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
-                        Подсказка 3: {task.hint3}
-                    </Typography>
+                    {isAuthor && (
+                        <>
+                            <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
+                                Подсказка 1: {task.hint1}
+                            </Typography>
+                            <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
+                                Подсказка 2: {task.hint2}
+                            </Typography>
+                            <Typography component='div' sx={{flexGrow: 1, mb: '10px'}}>
+                                Подсказка 3: {task.hint3}
+                            </Typography>
+                        </>
+                    )}
+
                     {isAuthor && (
                         <Button variant='contained' sx={{mb: '10px'}} onClick={handleOpenEditTaskForm}>
                             Редактировать задание
@@ -126,7 +160,7 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
             </Box>
 
             {!isAuthor && (
-                <Box sx={{display: 'flex', gap: '20px', mt: '15px'}}>
+                <Box sx={{display: 'flex', gap: '20px', mt: '15px', mb: '20px'}}>
                     <TextField
                         type='text'
                         name='answer'
@@ -141,6 +175,8 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
                     </Button>
                 </Box>
             )}
+
+            {!isAuthor && <AnswersList taskId={task._id} />}
 
             {editTask && (
                 <ModalWindow>

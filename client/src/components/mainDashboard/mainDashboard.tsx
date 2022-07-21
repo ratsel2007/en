@@ -12,7 +12,7 @@ export const MainDashboard = () => {
         return <h2>Loading...</h2>;
     }
 
-    const userTeamInGame = nextGame[0].teamInGame.includes(authUser?.team);
+    const userTeamInGame = nextGame[0]?.teamInGame.includes(authUser?.team.stuffTitle);
 
     return (
         <Container sx={{paddingTop: '20px'}}>
@@ -23,7 +23,7 @@ export const MainDashboard = () => {
                     </Typography>
                 )}
 
-                {nextGame[0].image && (
+                {nextGame[0]?.image && (
                     <img className='game-image' src={`${nextGame[0].image}`} alt={nextGame[0].title} />
                 )}
 
@@ -39,7 +39,7 @@ export const MainDashboard = () => {
                     </Link>
                 )}
 
-                {authUser?.name === nextGame[0].gameAuthor && (
+                {authUser?.name === nextGame[0]?.gameAuthor && (
                     <Link to='/add-tasks'>
                         <Button variant='contained' sx={{mb: '20px'}}>
                             Редактировать игру

@@ -4,12 +4,12 @@ import {useAppSelector} from '../../hooks/redux';
 
 interface AnswerState {
     answers: AnswerModel[] | null;
-    answerByTeam: AnswerModel[] | null;
+    answerByTeamAndTask: AnswerModel[] | null;
 }
 
 const initialState: AnswerState = {
     answers: [],
-    answerByTeam: [],
+    answerByTeamAndTask: [],
 };
 
 export const answerSlice = createSlice({
@@ -19,8 +19,11 @@ export const answerSlice = createSlice({
         getAllAnswers(state, {payload}: PayloadAction<AnswerModel[]>) {
             state.answers = payload;
         },
-        getAnswersByTeam(state, {payload}: PayloadAction<AnswerModel[]>) {
-            state.answerByTeam = payload;
+        getAnswersByTeamAndTask(state, {payload}: PayloadAction<AnswerModel[]>) {
+            state.answerByTeamAndTask = payload;
+        },
+        setNewAnswer(state, {payload}: PayloadAction<AnswerModel>) {
+            state.answers.push(payload);
         },
     },
 });

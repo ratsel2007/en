@@ -5,6 +5,7 @@ import { DocumentType, ModelType } from '@typegoose/typegoose/lib/types';
 import { CreateTeamDto } from './dto/team.dto';
 import { AnswerService } from '../answer/answer.service';
 import { Types } from 'mongoose';
+import { CreateAnswerDto } from '../answer/dto/answer.dto';
 
 @Injectable()
 export class TeamService {
@@ -30,7 +31,9 @@ export class TeamService {
     return this.teamModel.findByIdAndUpdate(teamId, dto, { new: true });
   }
 
-  async increaseTeamProgress({ teamTitle, taskId, answer }) {
+  async increaseTeamProgress(answerDto: CreateAnswerDto) {
+    const { answer, teamTitle, taskId } = answerDto;
+
     const team = await this.findTeamByTitle(teamTitle);
 
     const { rightVersion, increaseProgress } =

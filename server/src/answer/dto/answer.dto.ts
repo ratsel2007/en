@@ -1,14 +1,14 @@
-import { IsBoolean, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsString } from 'class-validator';
 
 export class CreateAnswerDto {
   @IsString()
-  team: string;
+  teamTitle: string;
 
   @IsString()
   user: string;
 
-  @IsNumber()
-  numberTask: number;
+  @IsString()
+  taskId: string;
 
   @IsString()
   answer: string;

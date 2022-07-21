@@ -17,8 +17,11 @@ export class AnswerService {
     return this.answerModel.find().exec();
   }
 
-  async getAnswersByTeam(team: string): Promise<DocumentType<AnswerModel>[]> {
-    return this.answerModel.find({ team }).exec();
+  async getAnswersByTeamAndTask(
+    teamTitle: string,
+    taskId: string,
+  ): Promise<DocumentType<AnswerModel>[]> {
+    return this.answerModel.find({ teamTitle, taskId }).exec();
   }
 
   async createAnswer(dto: CreateAnswerDto): Promise<DocumentType<AnswerModel>> {
@@ -51,6 +54,10 @@ export class AnswerService {
   }
 
   async editAnswerToRight(id: string, dto: PatchAnswerToRightDto) {
-    return this.answerModel.findByIdAndUpdate(id, dto, { new: true });
+    return this.answerModel.findByIdAndUpdate(id, dto, { new: true }).exec();
+  }
+
+  async deleteAllAnswers() {
+    return this.answerModel.deleteMany().exec();
   }
 }

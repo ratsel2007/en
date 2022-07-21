@@ -23,6 +23,7 @@ export const Header: FC = () => {
         }
         if (isAuth) {
             dispatch(logout());
+            navigate('/');
         }
     };
 
@@ -31,8 +32,9 @@ export const Header: FC = () => {
             <AppBar position='static'>
                 <Toolbar>
                     <Typography variant='h6' component='div' sx={{flexGrow: 1}}>
-                        {authUser?.name}
+                        {authUser?.name} ({authUser?.team.title})
                     </Typography>
+
                     {authUser?.author && (
                         <Link to='/add-game'>
                             <Button color='inherit' sx={{color: '#FFFFFF', textDecoration: 'none'}}>

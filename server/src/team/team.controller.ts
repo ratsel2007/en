@@ -11,6 +11,7 @@ import {
 import { CreateTeamDto } from './dto/team.dto';
 import { TeamService } from './team.service';
 import { TEAM_NOT_FOUND } from './team.constats';
+import { CreateAnswerDto } from '../answer/dto/answer.dto';
 
 @Controller('team')
 export class TeamController {
@@ -40,10 +41,8 @@ export class TeamController {
   }
 
   @Patch()
-  async checkTeamProgress(
-    @Body() data: { teamTitle: string; taskId: string; answer: string },
-  ) {
-    return this.teamService.increaseTeamProgress(data);
+  async checkTeamProgress(@Body() dto: CreateAnswerDto) {
+    return this.teamService.increaseTeamProgress(dto);
   }
 
   @Patch('/teams-to-null')

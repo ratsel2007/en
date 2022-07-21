@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -19,9 +20,12 @@ export class AnswerController {
     return this.answerService.getAllAnswers();
   }
 
-  @Get('')
-  async getAnswersByTeam(@Query('team') team: string) {
-    return this.answerService.getAnswersByTeam(team);
+  @Get('/abt')
+  async getAnswersByTeam(
+    @Query('team') team: string,
+    @Query('task') task: string,
+  ) {
+    return this.answerService.getAnswersByTeamAndTask(team, task);
   }
 
   @Post()
@@ -35,5 +39,10 @@ export class AnswerController {
     @Body() dto: PatchAnswerToRightDto,
   ) {
     return this.answerService.editAnswerToRight(id, dto);
+  }
+
+  @Delete()
+  async deleteAllAnswers() {
+    return this.answerService.deleteAllAnswers();
   }
 }
