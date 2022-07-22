@@ -13,6 +13,7 @@ import {
 import { CreateTaskDto, PatchTaskDto } from './dto/task.dto';
 import { TASK_NOT_FOUND } from './task.constants';
 import { TaskService } from './task.service';
+import { Types } from 'mongoose';
 
 @Controller('task')
 export class TaskController {
@@ -24,8 +25,8 @@ export class TaskController {
   }
 
   @Get(':id')
-  async getTaskById(@Param('id') id: string) {
-    const currentTask = await this.taskService.findByTaskId(id);
+  async getTaskById(@Param('id') id: Types.ObjectId) {
+    const currentTask = await this.taskService.findTaskById(id);
 
     if (!currentTask) {
       throw new NotFoundException(TASK_NOT_FOUND);

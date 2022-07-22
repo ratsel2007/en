@@ -1,23 +1,21 @@
 import * as React from 'react';
 import {FC, useState} from 'react';
-import {TaskModel} from '../../../../server/src/task/task.model';
-import {Container, Box, Stack, Button, TextField} from '@mui/material';
-import Typography from '@mui/material/Typography';
-import {useAppDispatch} from '../../hooks/redux';
-import {useModalActions, useModalState} from '../../store/reducers/modalSlice';
 import {ModalWindow} from '../common/modal/modalWindow';
 import {EditTaskForm} from '../common/forms/editTaskForm';
-import {deleteTask} from '../../store/action-creators/task';
+import {AnswersList} from '../answersList/answersList';
+
+import {Container, Box, Stack, Button, TextField} from '@mui/material';
+import Typography from '@mui/material/Typography';
+
+import {TaskModel} from '../../../../server/src/task/task.model';
+import {CreateAnswerDto} from '../../../../server/src/answer/dto/answer.dto';
+
+import {useAppDispatch} from '../../hooks/redux';
+import {useModalActions, useModalState} from '../../store/reducers/modalSlice';
 import {useAuthState} from '../../store/reducers/authSlice';
 import {useGameState} from '../../store/reducers/gameSlice';
-import {
-    checkAnswer,
-    editAnswerToRight,
-    fetchAnswersByTeamAndTask,
-    postNewAnswer,
-} from '../../store/action-creators/answer-actions';
-import {CreateAnswerDto} from '../../../../server/src/answer/dto/answer.dto';
-import {AnswersList} from '../answersList/answersList';
+import {deleteTask} from '../../store/action-creators/task';
+import {postAndCheckNewAnswer} from '../../store/action-creators/answer-actions';
 
 type TaskProps = {
     task: TaskModel;
@@ -53,22 +51,15 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
     };
 
     const checkTeamAnswer = async () => {
-        const data: CreateAnswerDto = {
+        const answerData: CreateAnswerDto = {
             user: authUser.name,
             right: false,
-            teamTitle: authUser.team.stuffTitle,
+            teamId: authUser.team._id,
             taskId: task._id,
             answer: teamAnswer.trim().toLowerCase(),
         };
 
-        const {_id} = await dispatch(postNewAnswer(data));
-
-        const {rightVersion, taskId, team} = await dispatch(checkAnswer(data));
-
-        if (rightVersion) {
-            await dispatch(editAnswerToRight(_id));
-            dispatch(fetchAnswersByTeamAndTask(team.stuffTitle, taskId));
-        }
+        dispatch(postAndCheckNewAnswer(answerData));
 
         setTeamAnswer('');
     };

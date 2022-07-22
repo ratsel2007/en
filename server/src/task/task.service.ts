@@ -3,6 +3,7 @@ import { DocumentType, ModelType } from '@typegoose/typegoose/lib/types';
 import { TaskModel } from './task.model';
 import { CreateTaskDto, PatchTaskDto } from './dto/task.dto';
 import { InjectModel } from 'nestjs-typegoose';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class TaskService {
@@ -29,8 +30,8 @@ export class TaskService {
     return this.taskModel.findByIdAndDelete(id).exec();
   }
 
-  async findByTaskId(taskId: string): Promise<DocumentType<TaskModel>> {
-    return this.taskModel.findById(taskId).exec();
+  async findTaskById(id: Types.ObjectId): Promise<DocumentType<TaskModel>> {
+    return this.taskModel.findById(id).exec();
   }
 
   async deleteAllTasks() {

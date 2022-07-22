@@ -13,3 +13,8 @@ export class CreateTeamDto {
   @IsNumber()
   progressInGame: number;
 }
+
+export class IncreaseTeamProgressDto {
+  @IsNumber()
+  progressInGame: number;
+}

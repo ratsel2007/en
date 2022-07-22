@@ -7,7 +7,7 @@ export interface AnswerModel extends Base {}
 
 export class AnswerModel extends TimeStamps {
   @prop()
-  teamTitle: string;
+  teamId: Types.ObjectId;
 
   @prop()
   user: string;
@@ -17,9 +17,6 @@ export class AnswerModel extends TimeStamps {
 
   @prop()
   answer: string;
-
-  @prop()
-  date: Date;
 
   @prop({ default: false })
   right: boolean;

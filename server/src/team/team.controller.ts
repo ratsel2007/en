@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   NotFoundException,
+  Param,
   Patch,
   Post,
   Query,
@@ -11,7 +12,7 @@ import {
 import { CreateTeamDto } from './dto/team.dto';
 import { TeamService } from './team.service';
 import { TEAM_NOT_FOUND } from './team.constats';
-import { CreateAnswerDto } from '../answer/dto/answer.dto';
+import { Types } from 'mongoose';
 
 @Controller('team')
 export class TeamController {
@@ -20,6 +21,11 @@ export class TeamController {
   @Get()
   async getAllTeams() {
     return this.teamService.getAllTeams();
+  }
+
+  @Get(':id')
+  async getTeamById(@Param('id') id: string | Types.ObjectId) {
+    return this.teamService.findTeamById(id);
   }
 
   @Get('/c')
@@ -38,11 +44,6 @@ export class TeamController {
   @Post()
   async createTeam(@Body() dto: CreateTeamDto) {
     return this.teamService.createTeam(dto);
-  }
-
-  @Patch()
-  async checkTeamProgress(@Body() dto: CreateAnswerDto) {
-    return this.teamService.increaseTeamProgress(dto);
   }
 
   @Patch('/teams-to-null')

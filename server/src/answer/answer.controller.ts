@@ -1,15 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
 import { AnswerService } from './answer.service';
-import { CreateAnswerDto, PatchAnswerToRightDto } from './dto/answer.dto';
+import { CreateAnswerDto } from './dto/answer.dto';
+import { Types } from 'mongoose';
 
 @Controller('answer')
 export class AnswerController {
@@ -21,24 +13,16 @@ export class AnswerController {
   }
 
   @Get('/abt')
-  async getAnswersByTeam(
-    @Query('team') team: string,
-    @Query('task') task: string,
+  async getAnswersByTeamAndTask(
+    @Query('team') team: string | Types.ObjectId,
+    @Query('task') task: string | Types.ObjectId,
   ) {
     return this.answerService.getAnswersByTeamAndTask(team, task);
   }
 
   @Post()
   async createNewAnswer(@Body() dto: CreateAnswerDto) {
-    return this.answerService.createAnswer(dto);
-  }
-
-  @Patch(':id')
-  async patchAnswer(
-    @Param('id') id: string,
-    @Body() dto: PatchAnswerToRightDto,
-  ) {
-    return this.answerService.editAnswerToRight(id, dto);
+    return this.answerService.createAndCheckAnswer(dto);
   }
 
   @Delete()

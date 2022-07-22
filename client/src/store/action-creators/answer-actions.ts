@@ -1,39 +1,27 @@
 import {AppDispatch} from '../store';
 import axios from 'axios';
-import {ANSWER_URL, TEAMS_URL} from '../constants';
+import {ANSWER_URL} from '../constants';
 import {CreateAnswerDto} from '../../../../server/src/answer/dto/answer.dto';
 import {useAnswerActions} from '../reducers/answerSlice';
+import {Types} from 'mongoose';
+import {useTeamActions} from '../reducers/teamSlice';
 
-const {getAnswersByTeamAndTask} = useAnswerActions();
+const {setAnswersByTeamAndTask} = useAnswerActions();
+const {setCurrentTeam} = useTeamActions();
 
-export const fetchAnswersByTeamAndTask = (teamTitle: string, taskId: string) => {
+export const fetchAnswersByTeamAndTask = (teamId: Types.ObjectId, taskId: Types.ObjectId) => {
     return async (dispatch: AppDispatch) => {
-        const {data} = await axios.get(ANSWER_URL + 'abt/?team=' + teamTitle + '&task=' + taskId);
+        const {data} = await axios.get(ANSWER_URL + 'abt/?team=' + teamId + '&task=' + taskId);
 
-        dispatch(getAnswersByTeamAndTask(data));
+        dispatch(setAnswersByTeamAndTask(data));
     };
 };
 
-export const checkAnswer = (candidateAnswer) => {
-    return async (dispatch: AppDispatch) => {
-        const {data} = await axios.patch(TEAMS_URL, candidateAnswer);
-
-        dispatch(fetchAnswersByTeamAndTask(data.team.stuffTitle, data.taskId));
-
-        return data;
-    };
-};
-
-export const postNewAnswer = (answer: CreateAnswerDto) => {
+export const postAndCheckNewAnswer = (answer: CreateAnswerDto) => {
     return async (dispatch: AppDispatch) => {
         const {data} = await axios.post(ANSWER_URL, answer);
 
-        return data;
-    };
-};
-
-export const editAnswerToRight = (id: string) => {
-    return async (dispatch: AppDispatch) => {
-        await axios.patch(ANSWER_URL + id, {right: true});
+        dispatch(setCurrentTeam(data.team));
+        dispatch(setAnswersByTeamAndTask(data.answers));
     };
 };

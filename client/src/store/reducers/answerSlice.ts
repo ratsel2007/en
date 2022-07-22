@@ -16,10 +16,10 @@ export const answerSlice = createSlice({
     name: 'answer',
     initialState,
     reducers: {
-        getAllAnswers(state, {payload}: PayloadAction<AnswerModel[]>) {
+        setAllAnswers(state, {payload}: PayloadAction<AnswerModel[]>) {
             state.answers = payload;
         },
-        getAnswersByTeamAndTask(state, {payload}: PayloadAction<AnswerModel[]>) {
+        setAnswersByTeamAndTask(state, {payload}: PayloadAction<AnswerModel[]>) {
             state.answerByTeamAndTask = payload;
         },
         setNewAnswer(state, {payload}: PayloadAction<AnswerModel>) {

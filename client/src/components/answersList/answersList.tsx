@@ -1,14 +1,16 @@
 import * as React from 'react';
 import {FC, useEffect} from 'react';
+import {Types} from 'mongoose';
+
+import {AnswerInList} from '../answerInList/answerInList';
 
 import {useAnswerState} from '../../store/reducers/answerSlice';
 import {useAppDispatch} from '../../hooks/redux';
-import {fetchAnswersByTeamAndTask} from '../../store/action-creators/answer-actions';
 import {useAuthState} from '../../store/reducers/authSlice';
-import {AnswerInList} from '../answerInList/answerInList';
+import {fetchAnswersByTeamAndTask} from '../../store/action-creators/answer-actions';
 
 interface AnswersListProps {
-    taskId: string;
+    taskId: Types.ObjectId;
 }
 
 export const AnswersList: FC<AnswersListProps> = ({taskId}) => {
@@ -17,11 +19,11 @@ export const AnswersList: FC<AnswersListProps> = ({taskId}) => {
     const {authUser} = useAuthState();
 
     useEffect(() => {
-        dispatch(fetchAnswersByTeamAndTask(authUser.team.stuffTitle, taskId));
+        dispatch(fetchAnswersByTeamAndTask(authUser.team._id, taskId));
     }, []);
 
     setTimeout(() => {
-        dispatch(fetchAnswersByTeamAndTask(authUser.team.stuffTitle, taskId));
+        dispatch(fetchAnswersByTeamAndTask(authUser.team._id, taskId));
     }, 3000);
 
     return (

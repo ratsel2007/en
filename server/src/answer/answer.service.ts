@@ -4,6 +4,8 @@ import { AnswerModel } from './answer.model';
 import { DocumentType, ModelType } from '@typegoose/typegoose/lib/types';
 import { CreateAnswerDto, PatchAnswerToRightDto } from './dto/answer.dto';
 import { TaskService } from '../task/task.service';
+import { TeamService } from '../team/team.service';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class AnswerService {
@@ -11,6 +13,7 @@ export class AnswerService {
     @InjectModel(AnswerModel)
     private readonly answerModel: ModelType<AnswerModel>,
     private readonly taskService: TaskService,
+    private readonly teamService: TeamService,
   ) {}
 
   async getAllAnswers(): Promise<DocumentType<AnswerModel>[]> {
@@ -18,43 +21,36 @@ export class AnswerService {
   }
 
   async getAnswersByTeamAndTask(
-    teamTitle: string,
-    taskId: string,
+    teamId: string | Types.ObjectId,
+    taskId: string | Types.ObjectId,
   ): Promise<DocumentType<AnswerModel>[]> {
-    return this.answerModel.find({ teamTitle, taskId }).exec();
+    return this.answerModel.find({ teamId, taskId }).exec();
   }
 
-  async createAnswer(dto: CreateAnswerDto): Promise<DocumentType<AnswerModel>> {
-    return this.answerModel.create(dto);
-  }
+  async createAndCheckAnswer(dto: CreateAnswerDto) {
+    const { teamId, taskId, answer } = dto;
+    const team = await this.teamService.findTeamById(teamId);
+    const task = await this.taskService.findTaskById(taskId);
 
-  async findAnswerById(id: string): Promise<DocumentType<AnswerModel>> {
-    return this.answerModel.findById(id);
-  }
+    const { _id } = await this.answerModel.create(dto);
 
-  async checkAnswer(taskId: string, answer: string) {
-    const task = await this.taskService.findByTaskId(taskId);
-
-    let rightVersion = false;
-    let increaseProgress = false;
-
-    if (task.address.includes(answer)) {
-      rightVersion = true;
-      await this.editAnswerToRight(taskId, { right: true });
+    if (task.address.includes(answer) || task.codeAnswer.includes(answer)) {
+      await this.editAnswerToRight(_id, { right: true });
     }
 
     if (task.codeAnswer.includes(answer)) {
-      rightVersion = true;
-      increaseProgress = true;
+      await this.teamService.increaseTeamProgress(teamId, {
+        progressInGame: team.progressInGame + 1,
+      });
     }
 
     return {
-      rightVersion,
-      increaseProgress,
+      answers: await this.getAnswersByTeamAndTask(teamId, taskId),
+      team: await this.teamService.findTeamById(teamId),
     };
   }
 
-  async editAnswerToRight(id: string, dto: PatchAnswerToRightDto) {
+  async editAnswerToRight(id: Types.ObjectId, dto: PatchAnswerToRightDto) {
     return this.answerModel.findByIdAndUpdate(id, dto, { new: true }).exec();
   }
 

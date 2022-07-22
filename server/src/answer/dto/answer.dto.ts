@@ -1,14 +1,13 @@
 import { IsBoolean, IsString } from 'class-validator';
+import { Types } from 'mongoose';
 
 export class CreateAnswerDto {
-  @IsString()
-  teamTitle: string;
+  teamId: Types.ObjectId;
 
   @IsString()
   user: string;
 
-  @IsString()
-  taskId: string;
+  taskId: Types.ObjectId;
 
   @IsString()
   answer: string;

@@ -5,6 +5,8 @@ import { TypegooseModule } from 'nestjs-typegoose';
 import { AnswerModel } from './answer.model';
 import { TaskService } from '../task/task.service';
 import { TaskModel } from '../task/task.model';
+import { TeamModel } from '../team/team.model';
+import { TeamService } from '../team/team.service';
 
 @Module({
   controllers: [AnswerController],
@@ -16,14 +18,10 @@ import { TaskModel } from '../task/task.model';
           collection: 'Answer',
         },
       },
-      {
-        typegooseClass: TaskModel,
-        schemaOptions: {
-          collection: 'TaskInGame',
-        },
-      },
+      TeamModel,
+      TaskModel,
     ]),
   ],
-  providers: [AnswerService, TaskService],
+  providers: [AnswerService, TaskService, TeamService],
 })
 export class AnswerModule {}
