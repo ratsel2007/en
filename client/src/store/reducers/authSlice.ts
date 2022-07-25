@@ -23,6 +23,9 @@ export const authSlice = createSlice({
         toggleIsAuth(state, action: PayloadAction<boolean>) {
             state.isAuth = action.payload;
         },
+        editAuthUserTeamData(state, {payload: progress}: PayloadAction<number>) {
+            state.authUser.team.progressInGame = progress;
+        },
     },
 });
 

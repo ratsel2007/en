@@ -64,7 +64,11 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
         setTeamAnswer('');
     };
 
-    const isAuthor = nextGame[0]?.gameAuthor === authUser.name;
+    const isAuthor = nextGame[0]?.gameAuthor === authUser?.name;
+
+    if (!task) {
+        return <h1>Загрузка данных...</h1>;
+    }
 
     return (
         <Container sx={{mt: '15px', pb: '30px'}}>
@@ -181,7 +185,7 @@ export const TaskInGame: FC<TaskProps> = ({task}) => {
 
             {editTask && (
                 <ModalWindow>
-                    <EditTaskForm task={task} />
+                    <EditTaskForm taskId={task._id} />
                 </ModalWindow>
             )}
         </Container>

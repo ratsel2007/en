@@ -4,10 +4,10 @@ import {ANSWER_URL} from '../constants';
 import {CreateAnswerDto} from '../../../../server/src/answer/dto/answer.dto';
 import {useAnswerActions} from '../reducers/answerSlice';
 import {Types} from 'mongoose';
-import {useTeamActions} from '../reducers/teamSlice';
+import {useAuthActions} from '../reducers/authSlice';
 
 const {setAnswersByTeamAndTask} = useAnswerActions();
-const {setCurrentTeam} = useTeamActions();
+const {editAuthUserTeamData} = useAuthActions();
 
 export const fetchAnswersByTeamAndTask = (teamId: Types.ObjectId, taskId: Types.ObjectId) => {
     return async (dispatch: AppDispatch) => {
@@ -21,7 +21,7 @@ export const postAndCheckNewAnswer = (answer: CreateAnswerDto) => {
     return async (dispatch: AppDispatch) => {
         const {data} = await axios.post(ANSWER_URL, answer);
 
-        dispatch(setCurrentTeam(data.team));
+        dispatch(editAuthUserTeamData(data.team.progressInGame));
         dispatch(setAnswersByTeamAndTask(data.answers));
     };
 };

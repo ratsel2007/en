@@ -1,19 +1,19 @@
 import * as React from 'react';
 import {FC} from 'react';
 import {AnswerModel} from '../../../../server/src/answer/answer.model';
-import {useTeamState} from '../../store/reducers/teamSlice';
+import {useAuthState} from '../../store/reducers/authSlice';
 
 interface AnswerInListProps {
     answerData: AnswerModel;
 }
 
 export const AnswerInList: FC<AnswerInListProps> = ({answerData}) => {
-    const {currentTeam} = useTeamState();
     const {user, answer, right} = answerData;
+    const {authUser} = useAuthState();
 
     return (
         <div className={right ? 'green' : 'red'}>
-            {user} ({currentTeam.title}) - {answer}
+            {user} ({authUser.team.title}) - {answer}
         </div>
     );
 };

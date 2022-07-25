@@ -36,6 +36,12 @@ export class TeamService {
     return this.teamModel.findByIdAndUpdate(id, dto, { new: true });
   }
 
+  async checkTeamProgress(id: Types.ObjectId | string, teamProgress) {
+    const team = await this.teamModel.findById(id).exec();
+
+    return team.progressInGame > teamProgress.progress;
+  }
+
   async allTeamsProgressToNull() {
     return this.teamModel.updateMany({ $set: { progressInGame: 0 } });
   }

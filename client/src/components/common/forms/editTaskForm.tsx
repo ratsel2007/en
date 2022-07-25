@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {TaskModel} from '../../../../../server/src/task/task.model';
 import {FC, useState} from 'react';
 import {Button, Stack, TextField} from '@mui/material';
 import {PatchTaskDto} from '../../../../../server/src/task/dto/task.dto';
@@ -7,34 +6,40 @@ import {useAppDispatch} from '../../../hooks/redux';
 import {editTask} from '../../../store/action-creators/task';
 import {useModalActions} from '../../../store/reducers/modalSlice';
 import {useArrayDataToStringData} from '../../../hooks/useArrayDataToStringData';
+import {Types} from 'mongoose';
+import {useTaskState} from '../../../store/reducers/taskSlice';
 
 type EditTaskProps = {
-    task: TaskModel;
+    taskId: Types.ObjectId;
 };
-export const EditTaskForm: FC<EditTaskProps> = ({task}) => {
+export const EditTaskForm: FC<EditTaskProps> = ({taskId}) => {
     const dispatch = useAppDispatch();
+
+    const {tasks} = useTaskState();
+
+    const currentTask = tasks.filter((task) => task._id === taskId);
 
     const {setModalClose} = useModalActions();
 
     const [editTaskData, setEditTaskData] = useState<PatchTaskDto>({
-        title: task.title,
-        description: task.description,
-        image: task.image,
-        music: task.music,
-        video: task.video,
-        text: task.text,
-        image2: task.image2,
-        music2: task.music2,
-        video2: task.video2,
-        text2: task.text2,
-        codeLevel: task.codeLevel,
-        codeDescription: task.codeDescription,
-        address: task.address,
-        codeAnswer: task.codeAnswer,
-        hint1: task.hint1,
-        hint2: task.hint2,
-        hint3: task.hint3,
-        autoComplete: task.autoComplete,
+        title: currentTask[0].title,
+        description: currentTask[0].description,
+        image: currentTask[0].image,
+        music: currentTask[0].music,
+        video: currentTask[0].video,
+        text: currentTask[0].text,
+        image2: currentTask[0].image2,
+        music2: currentTask[0].music2,
+        video2: currentTask[0].video2,
+        text2: currentTask[0].text2,
+        codeLevel: currentTask[0].codeLevel,
+        codeDescription: currentTask[0].codeDescription,
+        address: currentTask[0].address,
+        codeAnswer: currentTask[0].codeAnswer,
+        hint1: currentTask[0].hint1,
+        hint2: currentTask[0].hint2,
+        hint3: currentTask[0].hint3,
+        autoComplete: currentTask[0].autoComplete,
     });
 
     const handleChangeEditTaskData = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +55,7 @@ export const EditTaskForm: FC<EditTaskProps> = ({task}) => {
     const handleEditTaskFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        dispatch(editTask(task._id, editTaskData));
+        dispatch(editTask(taskId, editTaskData));
 
         dispatch(setModalClose());
     };

@@ -41,6 +41,14 @@ export class TeamController {
     return team;
   }
 
+  @Get(':id/ctp')
+  async getNewTeamProgress(
+    @Param('id') id: Types.ObjectId | string,
+    @Query() progress,
+  ) {
+    return this.teamService.checkTeamProgress(id, progress);
+  }
+
   @Post()
   async createTeam(@Body() dto: CreateTeamDto) {
     return this.teamService.createTeam(dto);
