@@ -25,3 +25,9 @@ export const patchTeamProgress = (id: string | Types.ObjectId, progress: number)
         }
     };
 };
+
+export const patchAllProgressToNull = () => {
+    return async () => {
+        await axios.patch(TEAMS_URL + '/teams-to-null');
+    };
+};

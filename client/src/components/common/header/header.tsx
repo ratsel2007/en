@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import {patchAllProgressToNull} from '../../../store/action-creators/team';
 
 export const Header: FC = () => {
     const dispatch = useAppDispatch();
@@ -27,6 +28,10 @@ export const Header: FC = () => {
         }
     };
 
+    const resetProgress = () => {
+        dispatch(patchAllProgressToNull());
+    };
+
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position='static'>
@@ -34,6 +39,12 @@ export const Header: FC = () => {
                     <Typography variant='h6' component='div' sx={{flexGrow: 1}}>
                         {authUser?.name} ({authUser?.team.title})
                     </Typography>
+
+                    {authUser?.author && (
+                        <Button color='inherit' sx={{color: '#FFFFFF', textDecoration: 'none'}} onClick={resetProgress}>
+                            Сбросить прогресс всех команд
+                        </Button>
+                    )}
 
                     {authUser?.author && (
                         <Link to='/add-game'>
